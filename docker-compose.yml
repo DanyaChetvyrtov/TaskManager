@@ -1,7 +1,8 @@
 services:
+  # outer services
   postgres:
     image: postgres:16-alpine
-    container_name: postgres-container
+    container_name: postgres-zuzex-container
     ports:
       - "5433:5432"
     environment:
@@ -17,7 +18,7 @@ services:
 
   vault:
     image: vault:1.13.3
-    container_name: vault-container
+    container_name: vault-zuzex-container
     ports:
       - "8200:8200"
     environment:
@@ -26,7 +27,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak-container
+    container_name: keycloak-zuzex-container
     command: start-dev 
     environment:
       KEYCLOAK_ADMIN: admin
@@ -43,6 +44,30 @@ services:
       microservices-net:
         aliases:
           - "keycloak"
+
+  # infrastructure services
+  config-server:
+    image: danilchet/zuzex-config-server-ms
+    container_name: config-server-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8071:8071"
+
+  eureka-server:
+    image: danilchet/zuzex-eureka-server-ms
+    container_name: eureka-server-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+    depends_on:
+      - config-server
+
+  # main services
 
 
 networks:
