@@ -1,0 +1,31 @@
+@path = http://localhost:8100/api/v1/account
+@accountId = de6936c1-0cf9-4e01-a382-248c867d61ec
+
+### GET all accounts
+GET {{path}}
+
+### GET by id
+GET {{path}}/{{accountId}}
+
+### POST create new account
+POST {{path}}
+Content-Type: application/json
+
+{
+  "name": "Danil",
+  "surname": "Semenov",
+  "age": 24
+}
+
+### PUT update account
+PUT {{path}}/{{accountId}}
+Content-Type: application/json
+
+{
+  "name": "Danil",
+  "surname": "Semenov",
+  "age": 25
+}
+
+### DELETE by id
+DELETE {{path}}/{{accountId}}
