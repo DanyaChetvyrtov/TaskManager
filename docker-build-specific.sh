@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-cd "$1" || { echo "Error entering $1"; return 1; }
+cd "services/$1" || { echo "Error entering $1"; return 1; }
 echo "Start building $2 image"
-docker build -t "danilchet/$2" . || { echo "Error building $2 image"; return 1; }
+docker build -t "danilchet/zuzex-$2" . || { echo "Error building $2 image"; return 1; }
 cd ..
