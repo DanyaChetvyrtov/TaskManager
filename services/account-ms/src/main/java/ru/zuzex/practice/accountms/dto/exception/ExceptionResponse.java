@@ -1,19 +1,23 @@
 package ru.zuzex.practice.accountms.dto.exception;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExceptionResponse {
-    private String message; // TODO add fields for status and timestamp
+    private int status;
+    private String error;
+    private String path;
+    private String message;
+    private LocalDateTime timestamp;
     private Map<String, String> errors;
 
-    public ExceptionResponse(String message) {
-        this.message = message;
-    }
 }

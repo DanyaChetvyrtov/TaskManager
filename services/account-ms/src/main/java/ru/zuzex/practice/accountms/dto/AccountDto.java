@@ -28,7 +28,7 @@ public class AccountDto {
     private String surname;
 
     @NotNull(message = "age must be not null", groups = {OnCreate.class, OnUpdate.class})
-    @Min(value = 0, message = "Age can't be negative")
-    @Max(value = 100, message = "Age should be less or equal 100")
-    private int age;
+    @Min(value = 0, message = "Age can't be negative", groups = {OnCreate.class, OnUpdate.class})
+    @Max(value = 100, message = "Age should be less or equal 100", groups = {OnCreate.class, OnUpdate.class})
+    private Integer age;
 }
