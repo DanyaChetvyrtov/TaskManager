@@ -1,8 +1,17 @@
 spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      token: myroot
+      kv:
+        enabled: true
+        backend: secret
+        default-context: "kv/account-ms"
+
   datasource:
     url: jdbc:postgresql://localhost:5433/account_db?currentSchema=account_dev
-    username: postgres
-    password: root
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   sql:
@@ -31,3 +40,9 @@ eureka:
 
 server:
   port: 8100
+
+app:
+  secret: ${APP_SECRET:This is a secret}
+logging:
+  level:
+    org.springframework.cloud.vault: DEBUG

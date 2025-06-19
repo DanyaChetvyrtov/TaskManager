@@ -6,5 +6,4 @@ spring:
       uri: http://localhost:8071
       fail-fast: true
   config:
-    import: "configserver:"
-
+    import: "vault://,configserver:"
