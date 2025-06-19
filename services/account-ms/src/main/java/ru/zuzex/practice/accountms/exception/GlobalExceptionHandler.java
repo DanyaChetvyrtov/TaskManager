@@ -44,29 +44,13 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponse);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ExceptionHandler({
+            HttpMessageNotReadableException.class,
+            IllegalArgumentException.class
+    })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(
-            HttpMessageNotReadableException e,
-            HttpServletRequest request
-    ) {
-        var exceptionResponse = ExceptionResponse.builder()
-                .message(e.getMessage())
-                .status(400)
-                .error("Bad request")
-                .path(request.getRequestURI())
-                .timestamp(LocalDateTime.now())
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(exceptionResponse);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(
-            IllegalArgumentException e,
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(
+            RuntimeException e,
             HttpServletRequest request
     ) {
         var exceptionResponse = ExceptionResponse.builder()
