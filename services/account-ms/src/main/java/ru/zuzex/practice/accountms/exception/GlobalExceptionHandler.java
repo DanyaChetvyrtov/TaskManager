@@ -9,7 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ru.zuzex.practice.accountms.dto.exception.ExceptionResponse;
+import ru.zuzex.practice.accountms.dto.response.ExceptionResponse;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,8 @@
 package ru.zuzex.practice.accountms.serviece;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
@@ -16,8 +18,13 @@ import java.util.UUID;
 public class AccountService {
     private final AccountRepository accountRepository;
 
-    public List<Account> getAllAccounts() {
-        return accountRepository.findAll();
+    public Page<Account> getAllAccounts(Integer page, Integer size) {
+        var pageEntity = accountRepository.findAll(PageRequest.of(page - 1, size));
+
+        if(pageEntity.getTotalPages() < page)
+            throw new IllegalArgumentException("Such page does not exist");
+
+        return pageEntity;
     }
 
     public Account getAccount(String accountId) {

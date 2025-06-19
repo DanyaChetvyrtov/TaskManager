@@ -1,4 +1,4 @@
-package ru.zuzex.practice.accountms.dto.exception;
+package ru.zuzex.practice.accountms.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

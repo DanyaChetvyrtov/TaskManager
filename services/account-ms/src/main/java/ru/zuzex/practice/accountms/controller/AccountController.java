@@ -1,17 +1,18 @@
 package ru.zuzex.practice.accountms.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.zuzex.practice.accountms.dto.AccountDto;
+import ru.zuzex.practice.accountms.dto.response.PageResponse;
 import ru.zuzex.practice.accountms.mapper.AccountMapper;
+import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.serviece.AccountService;
 import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/account")
@@ -21,13 +22,24 @@ public class AccountController {
     private final AccountMapper accountMapper;
 
     @GetMapping
-    public ResponseEntity<List<AccountDto>> getAccounts() {
-        var accounts = accountService.getAllAccounts()
-                .stream().map(accountMapper::toDto).toList();
+    public ResponseEntity<PageResponse<AccountDto>> getAccounts(
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size
+    ) {
+        Page<Account> pageEntity = accountService.getAllAccounts(page, size);
+        var accounts = pageEntity.getContent().stream().map(accountMapper::toDto).toList();
+
+        PageResponse<AccountDto> response = PageResponse.<AccountDto>builder()
+                .content(accounts)
+                .totalPages(pageEntity.getTotalPages())
+                .totalElements(pageEntity.getTotalElements())
+                .curPage(page)
+                .pageSize(size)
+                .build();
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(accounts);
+                .body(response);
     }
 
     @GetMapping("/{accountId}")
