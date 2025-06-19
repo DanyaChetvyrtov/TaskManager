@@ -3,9 +3,15 @@ package ru.zuzex.practice.accountms.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import ru.zuzex.practice.accountms.dto.AccountDto;
+import ru.zuzex.practice.accountms.mapper.AccountMapper;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.serviece.AccountService;
+import ru.zuzex.practice.accountms.validation.OnCreate;
+import ru.zuzex.practice.accountms.validation.OnUpdate;
 
 import java.util.List;
 
@@ -14,31 +20,52 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
+    private final AccountMapper accountMapper;
 
     @GetMapping
-    public ResponseEntity<List<Account>> getAccounts() {
-        return new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
+    public ResponseEntity<List<AccountDto>> getAccounts() {
+        var accounts = accountService.getAllAccounts()
+                .stream().map(accountMapper::toDto).toList();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accounts);
     }
 
     @GetMapping("/{accountId}")
     public ResponseEntity<Account> getAccountById(@PathVariable("accountId") String accountId) {
-        return new ResponseEntity<>(accountService.getAccount(accountId), HttpStatus.OK);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountService.getAccount(accountId));
     }
 
     @PostMapping
-    public ResponseEntity<Account> addAccount(@RequestBody Account account) {
-        return new ResponseEntity<>(accountService.create(account), HttpStatus.CREATED);
+    public ResponseEntity<AccountDto> createAccount(@RequestBody @Validated(OnCreate.class) AccountDto accountDto) {
+        if (accountDto.getAccountId() != null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID must not be specified for new account");
+
+        var account = accountMapper.toEntity(accountDto);
+        account = accountService.create(account);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(accountMapper.toDto(account));
     }
 
     @PutMapping("/{accountId}")
-    public ResponseEntity<Account> updateAccount(
-            @PathVariable String accountId, @RequestBody Account account) {
-        return new ResponseEntity<>(accountService.update(accountId, account), HttpStatus.OK);
+    public ResponseEntity<AccountDto> updateAccount(
+            @PathVariable String accountId, @RequestBody @Validated(OnUpdate.class) AccountDto accountDto) {
+        var account = accountMapper.toEntity(accountDto);
+        account = accountService.update(accountId, account);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountMapper.toDto(account));
     }
 
     @DeleteMapping("/{accountId}")
     public ResponseEntity<HttpStatus> deleteAccount(@PathVariable String accountId) {
         accountService.delete(accountId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 }
