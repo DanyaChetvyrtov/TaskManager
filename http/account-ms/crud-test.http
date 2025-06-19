@@ -1,5 +1,5 @@
 @path = http://localhost:8100/api/v1/account
-@accountId = de6936c1-0cf9-4e01-a382-248c867d61ec
+@accountId = 1664ca32-5d7d-43b9-adf8-455ba9de1318
 
 ### GET all accounts
 GET {{path}}
@@ -13,8 +13,8 @@ Content-Type: application/json
 
 {
   "name": "Danil",
-  "surname": "Semenov",
-  "age": 24
+  "surname": "Danil",
+  "age": 25
 }
 
 ### PUT update account
@@ -22,9 +22,10 @@ PUT {{path}}/{{accountId}}
 Content-Type: application/json
 
 {
-  "name": "Danil",
-  "surname": "Semenov",
-  "age": 25
+  "accountId": "f73185e5-99a6-45d5-bc62-15172237615f",
+  "name": "Sanya",
+  "surname": "Sanya",
+  "age": 22
 }
 
 ### DELETE by id

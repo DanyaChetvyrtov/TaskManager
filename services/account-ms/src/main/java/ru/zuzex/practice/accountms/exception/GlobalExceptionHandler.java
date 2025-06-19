@@ -3,12 +3,14 @@ package ru.zuzex.practice.accountms.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.accountms.dto.exception.ExceptionResponse;
+import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +41,63 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(exceptionResponse);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ExceptionResponse> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e,
+            HttpServletRequest request
+    ) {
+        var exceptionResponse = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .status(400)
+                .error("Bad request")
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(exceptionResponse);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(
+            IllegalArgumentException e,
+            HttpServletRequest request
+    ) {
+        var exceptionResponse = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .status(400)
+                .error("Bad request")
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(exceptionResponse);
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(
+            AccountNotFoundException e,
+            HttpServletRequest request
+    ) {
+        var exceptionResponse = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .status(404)
+                .error("Not found")
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(exceptionResponse);
     }
 }
