@@ -50,5 +50,13 @@ public class TaskService {
     public void delete(UUID taskId) {
         taskRepository.deleteById(taskId);
     }
+
+    @Transactional
+    public void reassign(UUID taskId, UUID newAccountId) {
+        var task = getTask(taskId);
+
+        task.setAccountId(newAccountId);
+        taskRepository.save(task);
+    }
 }
 

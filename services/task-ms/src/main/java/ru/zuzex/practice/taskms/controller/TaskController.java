@@ -55,7 +55,9 @@ public class TaskController {
 
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskDto> updateTask(
-            @PathVariable(name = "taskId") UUID taskId, @RequestBody @Validated(OnUpdate.class) TaskDto taskDto) {
+            @PathVariable(name = "taskId") UUID taskId,
+            @RequestBody @Validated(OnUpdate.class) TaskDto taskDto
+    ) {
         var task = taskMapper.toEntity(taskDto);
         task = taskService.update(taskId, task);
 
@@ -67,5 +69,12 @@ public class TaskController {
     public ResponseEntity<HttpStatus> deleteTask(@PathVariable UUID taskId) {
         taskService.delete(taskId);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/reassign/{taskId}")
+    public ResponseEntity<HttpStatus> reassignTask(
+            @PathVariable UUID taskId, @RequestParam("newAccountId") UUID newAccountId) {
+        taskService.reassign(taskId, newAccountId);
+        return ResponseEntity.noContent().build();
     }
 }
