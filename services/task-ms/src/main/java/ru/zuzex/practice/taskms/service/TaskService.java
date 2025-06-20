@@ -19,7 +19,7 @@ public class TaskService {
         return taskRepository.findAllByAccountId(accountId);
     }
 
-    public Task getById(UUID taskId) {
+    public Task getTask(UUID taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException("Task not found"));
     }
@@ -31,7 +31,7 @@ public class TaskService {
 
     @Transactional
     public Task update(UUID taskId, Task task) {
-        var existedTask = getById(taskId);
+        var existedTask = getTask(taskId);
 
         existedTask.setTitle(task.getTitle());
         existedTask.setBody(task.getBody());
@@ -41,7 +41,7 @@ public class TaskService {
     }
 
     @Transactional
-    public void deleteById(UUID taskId) {
+    public void delete(UUID taskId) {
         taskRepository.deleteById(taskId);
     }
 }

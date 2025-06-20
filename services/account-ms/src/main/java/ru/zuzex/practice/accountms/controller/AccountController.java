@@ -14,6 +14,8 @@ import ru.zuzex.practice.accountms.serviece.AccountService;
 import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("api/v1/account")
 @RequiredArgsConstructor
@@ -37,16 +39,14 @@ public class AccountController {
                 .pageSize(size)
                 .build();
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.ok()
                 .body(response);
     }
 
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") String accountId) {
         var account = accountService.getAccount(accountId);
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.ok()
                 .body(accountMapper.toDto(account));
     }
 
@@ -59,18 +59,17 @@ public class AccountController {
         account = accountService.create(account);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(URI.create("/api/v1/account/" + account.getAccountId()))
                 .body(accountMapper.toDto(account));
     }
 
     @PutMapping("/{accountId}")
     public ResponseEntity<AccountDto> updateAccount(
-            @PathVariable String accountId, @RequestBody @Validated(OnUpdate.class) AccountDto accountDto) {
+            @PathVariable(name = "accountId") String accountId, @RequestBody @Validated(OnUpdate.class) AccountDto accountDto) {
         var account = accountMapper.toEntity(accountDto);
         account = accountService.update(accountId, account);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.ok()
                 .body(accountMapper.toDto(account));
     }
 
