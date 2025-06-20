@@ -13,6 +13,12 @@ spring:
                 - Path=/account/**
               filters:
                 - RewritePath=/account, /api/v1/account
+            - id: task-service
+              uri: lb://task-ms
+              predicates:
+                - Path=/task/**
+              filters:
+                - RewritePath=/task, /api/v1/task
 
 eureka:
   instance:
