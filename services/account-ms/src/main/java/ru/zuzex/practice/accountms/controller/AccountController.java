@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.zuzex.practice.accountms.client.TaskFeignClient;
 import ru.zuzex.practice.accountms.dto.AccountDto;
 import ru.zuzex.practice.accountms.dto.response.PageResponse;
 import ru.zuzex.practice.accountms.mapper.AccountMapper;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class AccountController {
     private final AccountService accountService;
     private final AccountMapper accountMapper;
+    private final TaskFeignClient taskFeignClient;
 
     @GetMapping
     public ResponseEntity<PageResponse<AccountDto>> getAccounts(
@@ -47,8 +49,14 @@ public class AccountController {
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") UUID accountId) {
         var account = accountService.getAccount(accountId);
+        var accountDto = accountMapper.toDto(account);
+        var tasks = taskFeignClient.getTasks(accountId);
+
+//        tasks.forEach(System.out::println);
+        accountDto.setTasks(tasks);
+
         return ResponseEntity.ok()
-                .body(accountMapper.toDto(account));
+                .body(accountDto);
     }
 
     @PostMapping

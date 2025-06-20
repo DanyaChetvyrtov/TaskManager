@@ -1,5 +1,7 @@
 package ru.zuzex.practice.accountms.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -7,14 +9,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import ru.zuzex.practice.accountms.model.Task;
 import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AccountDto {
     @NotNull(message = "Id can't be null", groups = OnUpdate.class)
     private UUID accountId;
@@ -31,4 +36,7 @@ public class AccountDto {
     @Min(value = 0, message = "Age can't be negative", groups = {OnCreate.class, OnUpdate.class})
     @Max(value = 100, message = "Age should be less or equal 100", groups = {OnCreate.class, OnUpdate.class})
     private Integer age;
+
+    @Transient
+    private List<Task> tasks;
 }
