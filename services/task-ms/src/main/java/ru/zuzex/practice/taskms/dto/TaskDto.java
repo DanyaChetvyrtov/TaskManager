@@ -28,6 +28,6 @@ public class TaskDto {
     @NotNull(message = "Body must be not null", groups = {OnCreate.class, OnUpdate.class})
     private String body;
 
-    @NotNull(message = "Completed must be not null", groups = OnUpdate.class)
+    @NotNull(message = "Completed must be not null")
     private Boolean completed;
 }
