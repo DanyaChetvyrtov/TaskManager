@@ -10,7 +10,7 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5433/account_db?currentSchema=account_dev
-    username: ${DB_USERNAME}
+    username: ${DB_USERNAME} # подтягиваются из vault
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
@@ -41,8 +41,6 @@ eureka:
 server:
   port: 8100
 
-app:
-  secret: ${APP_SECRET:This is a secret}
 logging:
   level:
     org.springframework.cloud.vault: DEBUG
