@@ -16,6 +16,7 @@ import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -46,13 +47,20 @@ public class AccountController {
                 .body(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<AccountDto>> searchAccounts(@RequestParam("query") String query) {
+        var accounts = accountService.search(query)
+                .stream().map(accountMapper::toDto).toList();
+
+        return ResponseEntity.ok().body(accounts);
+    }
+
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") UUID accountId) {
         var account = accountService.getAccount(accountId);
         var accountDto = accountMapper.toDto(account);
         var tasks = taskFeignClient.getTasks(accountId);
 
-//        tasks.forEach(System.out::println);
         accountDto.setTasks(tasks);
 
         return ResponseEntity.ok()

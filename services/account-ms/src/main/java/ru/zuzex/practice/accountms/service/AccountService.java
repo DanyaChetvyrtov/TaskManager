@@ -9,6 +9,7 @@ import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.repository.AccountRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,6 +25,10 @@ public class AccountService {
             throw new IllegalArgumentException("Such page does not exist");
 
         return pageEntity;
+    }
+
+    public List<Account> search(String keyword) {
+        return accountRepository.searchAnywhereInNameOrSurname(keyword);
     }
 
     public Account getAccount(UUID accountId) {
