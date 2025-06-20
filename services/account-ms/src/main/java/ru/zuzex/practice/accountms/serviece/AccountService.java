@@ -46,13 +46,13 @@ public class AccountService {
         if (!accountUUID.equals(account.getAccountId()))
             throw new IllegalArgumentException("ID in path and body must match");
 
-        var existerAccount = getAccount(accountId);
+        var existedAccount = getAccount(accountId);
 
-        existerAccount.setName(account.getName());
-        existerAccount.setSurname(account.getSurname());
-        existerAccount.setAge(account.getAge());
+        existedAccount.setName(account.getName());
+        existedAccount.setSurname(account.getSurname());
+        existedAccount.setAge(account.getAge());
 
-        return accountRepository.save(existerAccount);
+        return accountRepository.save(existedAccount);
     }
 
     @Transactional
