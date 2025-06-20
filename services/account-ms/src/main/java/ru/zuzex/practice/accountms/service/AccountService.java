@@ -1,4 +1,4 @@
-package ru.zuzex.practice.accountms.serviece;
+package ru.zuzex.practice.accountms.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,6 @@ import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.repository.AccountRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,14 +20,14 @@ public class AccountService {
     public Page<Account> getAllAccounts(Integer page, Integer size) {
         var pageEntity = accountRepository.findAll(PageRequest.of(page - 1, size));
 
-        if(pageEntity.getTotalPages() < page)
+        if (pageEntity.getTotalPages() < page)
             throw new IllegalArgumentException("Such page does not exist");
 
         return pageEntity;
     }
 
-    public Account getAccount(String accountId) {
-        return accountRepository.findById(UUID.fromString(accountId))
+    public Account getAccount(UUID accountId) {
+        return accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found."));
     }
 
@@ -41,9 +40,8 @@ public class AccountService {
     }
 
     @Transactional
-    public Account update(String accountId, Account account) {
-        var accountUUID = UUID.fromString(accountId);
-        if (!accountUUID.equals(account.getAccountId()))
+    public Account update(UUID accountId, Account account) {
+        if (!accountId.equals(account.getAccountId()))
             throw new IllegalArgumentException("ID in path and body must match");
 
         var existedAccount = getAccount(accountId);
@@ -56,7 +54,7 @@ public class AccountService {
     }
 
     @Transactional
-    public void delete(String accountId) {
-        accountRepository.deleteById(UUID.fromString(accountId));
+    public void delete(UUID accountId) {
+        accountRepository.deleteById(accountId);
     }
 }

@@ -10,11 +10,12 @@ import ru.zuzex.practice.accountms.dto.AccountDto;
 import ru.zuzex.practice.accountms.dto.response.PageResponse;
 import ru.zuzex.practice.accountms.mapper.AccountMapper;
 import ru.zuzex.practice.accountms.model.Account;
-import ru.zuzex.practice.accountms.serviece.AccountService;
+import ru.zuzex.practice.accountms.service.AccountService;
 import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/account")
@@ -44,7 +45,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") String accountId) {
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") UUID accountId) {
         var account = accountService.getAccount(accountId);
         return ResponseEntity.ok()
                 .body(accountMapper.toDto(account));
@@ -65,7 +66,7 @@ public class AccountController {
 
     @PutMapping("/{accountId}")
     public ResponseEntity<AccountDto> updateAccount(
-            @PathVariable(name = "accountId") String accountId, @RequestBody @Validated(OnUpdate.class) AccountDto accountDto) {
+            @PathVariable(name = "accountId") UUID accountId, @RequestBody @Validated(OnUpdate.class) AccountDto accountDto) {
         var account = accountMapper.toEntity(accountDto);
         account = accountService.update(accountId, account);
 
@@ -74,7 +75,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{accountId}")
-    public ResponseEntity<HttpStatus> deleteAccount(@PathVariable String accountId) {
+    public ResponseEntity<HttpStatus> deleteAccount(@PathVariable UUID accountId) {
         accountService.delete(accountId);
         return ResponseEntity.ok().build();
     }
