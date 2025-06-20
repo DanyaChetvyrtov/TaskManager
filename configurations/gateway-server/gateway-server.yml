@@ -1,6 +1,19 @@
 server:
   port: 8072
 
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: account-service
+              uri: lb://account-ms
+              predicates:
+                - Path=/account/**
+              filters:
+                - RewritePath=/account, /api/v1/account
+
 eureka:
   instance:
     prefer-ip-address: true
