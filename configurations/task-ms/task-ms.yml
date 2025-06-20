@@ -1,0 +1,46 @@
+spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      token: myroot
+      kv:
+        enabled: true
+        backend: secret
+        default-context: "kv/task-ms"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/task_db?currentSchema=task_dev
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      schema-locations: classpath:/sql/schema-dev.sql
+      mode: always
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: task_dev
+
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.yml
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      default-zone: http://localhost:8761/eureka/
+
+server:
+  port: 8110
+
+logging:
+  level:
+    org.springframework.cloud.vault: DEBUG
