@@ -1,0 +1,54 @@
+@path = http://localhost:8072/account
+@accountId = b4010fe0-8b3b-4451-8f1d-487409596573
+
+
+### GET page > totalPages
+GET {{path}}?page=100000
+
+### GET by invalid UUID
+GET {{path}}/it's-invalid-UUID
+
+### GET unexisted account
+GET {{path}}/{{accountId}}
+
+### POST validation check
+POST {{path}}
+Content-Type: application/json
+
+{
+  "name": "",
+  "surname": "D",
+  "age": -25
+}
+
+### POST attempt creating with specified UUID
+POST {{path}}
+Content-Type: application/json
+
+{
+  "accountId": "f73185e5-99a6-45d5-bc62-15172237615f",
+  "name": "Danil",
+  "surname": "Danil",
+  "age": 25
+}
+
+### PUT validation check
+PUT {{path}}/{{accountId}}
+Content-Type: application/json
+
+{
+  "name": "",
+  "surname": "",
+  "age": 122
+}
+
+### PUT path accountId mismatch with entity accountId
+PUT {{path}}/{{accountId}}
+Content-Type: application/json
+
+{
+  "accountId": "f73185e5-99a6-45d5-bc62-15172237615a",
+  "name": "Sanya",
+  "surname": "Sanya",
+  "age": 22
+}

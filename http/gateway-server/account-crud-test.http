@@ -1,5 +1,5 @@
-@path = http://localhost:8100/api/v1/account
-@accountId = 63ba3c9a-4c86-4a24-8e8a-5601edc55ef4
+@path = http://localhost:8072/account
+@accountId = b4010fe0-8b3b-4451-8f1d-487409596572
 
 ### GET all accounts
 GET {{path}}
@@ -12,8 +12,8 @@ POST {{path}}
 Content-Type: application/json
 
 {
-  "name": "Danil",
-  "surname": "Danil",
+  "name": "Timur",
+  "surname": "Timur",
   "age": 25
 }
 
@@ -22,9 +22,9 @@ PUT {{path}}/{{accountId}}
 Content-Type: application/json
 
 {
-  "accountId": "f73185e5-99a6-45d5-bc62-15172237615f",
+  "accountId": "b4010fe0-8b3b-4451-8f1d-487409596572",
   "name": "Sanya",
-  "surname": "Sanya",
+  "surname": "Timur",
   "age": 22
 }
 
