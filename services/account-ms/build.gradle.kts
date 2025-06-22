@@ -38,6 +38,9 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
+	// kafka
+	implementation("org.springframework.kafka:spring-kafka")
+
 	// db
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
