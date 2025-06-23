@@ -17,12 +17,15 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public List<Task> getAllByAccountId(UUID accountId) {
-        return taskRepository.findAllByAccountId(accountId);
+        var tasks = taskRepository.findAllByAccountId(accountId);
+
+        if (tasks.isEmpty()) throw new TaskNotFoundException("No tasks found for accountId: " + accountId);
+
+        return tasks;
     }
 
     public Task getTask(UUID taskId) {
-        return taskRepository.findById(taskId)
-                .orElseThrow(TaskNotFoundException::new);
+        return taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
     }
 
     @Transactional
