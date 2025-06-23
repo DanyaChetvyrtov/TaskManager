@@ -14,7 +14,7 @@ spring:
               filters:
                 - RewritePath=/account, /api/v1/account
             - id: account-service-swagger
-              uri: http://localhost:8100  # URL первого микросервиса
+              uri: lb://account-ms
               predicates:
                 - Path=/account/swagger/**
               filters:
@@ -27,7 +27,7 @@ spring:
               filters:
                 - RewritePath=/task, /api/v1/task
             - id: task-service-swagger
-              uri: http://localhost:8110  # URL первого микросервиса
+              uri: lb://task-ms  # URL первого микросервиса
               predicates:
                 - Path=/task/swagger/**
               filters:
