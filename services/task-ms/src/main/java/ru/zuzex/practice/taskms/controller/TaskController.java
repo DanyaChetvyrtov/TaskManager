@@ -80,7 +80,8 @@ public class TaskController {
             summary = "Update a specific task by its ID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully updated task"),
-                    @ApiResponse(responseCode = "400", description = "ID in path and body must match")
+                    @ApiResponse(responseCode = "400", description = "ID in path and body must match"),
+                    @ApiResponse(responseCode = "400", description = "Validation failed")
             }
     )
     public ResponseEntity<TaskDto> updateTask(
