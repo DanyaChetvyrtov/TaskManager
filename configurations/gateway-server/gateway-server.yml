@@ -10,28 +10,28 @@ spring:
             - id: account-service-api
               uri: lb://account-ms
               predicates:
-                - Path=/account/**
+                - Path=/account/api/v1/**
               filters:
-                - RewritePath=/account, /api/v1/account
+                - RewritePath=/account/api/v1/(?<path>.*), /api/v1/$\{path}
             - id: account-service-swagger
               uri: lb://account-ms
               predicates:
-                - Path=/account/swagger/**
+                - Path=/account/swagger-ui.html
               filters:
-                - RewritePath=/account/swagger/(?<path>.*), /$\{path}
+                - SetPath=/swagger-ui.html
 
             - id: task-service-api
               uri: lb://task-ms
               predicates:
-                - Path=/task/**
+                - Path=/task/api/v1/**
               filters:
-                - RewritePath=/task, /api/v1/task
+                - RewritePath=/task/api/v1/(?<path>.*), /api/v1/$\{path}
             - id: task-service-swagger
-              uri: lb://task-ms  # URL первого микросервиса
+              uri: lb://task-ms
               predicates:
-                - Path=/task/swagger/**
+                - Path=/task/swagger
               filters:
-                - RewritePath=/task/swagger/(?<path>.*), /$\{path}
+                - SetPath=/swagger-ui.html
 
 eureka:
   instance:
