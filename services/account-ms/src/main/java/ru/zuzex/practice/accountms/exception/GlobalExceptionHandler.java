@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.accountms.dto.response.ExceptionResponse;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
+import ru.zuzex.practice.accountms.exception.exception.PageNotFound;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,7 +67,10 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponse);
     }
 
-    @ExceptionHandler(AccountNotFoundException.class)
+    @ExceptionHandler({
+            AccountNotFoundException.class,
+            PageNotFound.class
+    })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(
             AccountNotFoundException e,

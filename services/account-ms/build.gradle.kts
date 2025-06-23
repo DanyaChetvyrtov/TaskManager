@@ -40,6 +40,10 @@ dependencies {
 
 	// kafka
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("com.fasterxml.jackson.core:jackson-databind")
+
+	// swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
 
 	// db
 	runtimeOnly("org.postgresql:postgresql")

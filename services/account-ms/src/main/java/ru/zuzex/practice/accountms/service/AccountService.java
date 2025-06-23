@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
+import ru.zuzex.practice.accountms.exception.exception.PageNotFound;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.repository.AccountRepository;
 
@@ -21,19 +22,21 @@ public class AccountService {
     public Page<Account> getAllAccounts(Integer page, Integer size) {
         var pageEntity = accountRepository.findAll(PageRequest.of(page - 1, size));
 
-        if (pageEntity.getTotalPages() < page)
-            throw new IllegalArgumentException("Such page does not exist");
+        if (pageEntity.getTotalPages() < page) throw new PageNotFound("Such page does not exist");
 
         return pageEntity;
     }
 
     public List<Account> search(String keyword) {
-        return accountRepository.searchAnywhereInNameOrSurname(keyword);
+        var accounts = accountRepository.searchAnywhereInNameOrSurname(keyword);
+
+        if(accounts.isEmpty()) throw new AccountNotFoundException("No accounts were found by '" + keyword + "'");
+
+        return accounts;
     }
 
     public Account getAccount(UUID accountId) {
-        return accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountNotFoundException("Account not found."));
+        return accountRepository.findById(accountId).orElseThrow(AccountNotFoundException::new);
     }
 
     @Transactional
