@@ -7,18 +7,31 @@ spring:
       server:
         webflux:
           routes:
-            - id: account-service
+            - id: account-service-api
               uri: lb://account-ms
               predicates:
                 - Path=/account/**
               filters:
                 - RewritePath=/account, /api/v1/account
-            - id: task-service
+            - id: account-service-swagger
+              uri: http://localhost:8100  # URL первого микросервиса
+              predicates:
+                - Path=/account/swagger/**
+              filters:
+                - RewritePath=/account/swagger/(?<path>.*), /$\{path}
+
+            - id: task-service-api
               uri: lb://task-ms
               predicates:
                 - Path=/task/**
               filters:
                 - RewritePath=/task, /api/v1/task
+            - id: task-service-swagger
+              uri: http://localhost:8110  # URL первого микросервиса
+              predicates:
+                - Path=/task/swagger/**
+              filters:
+                - RewritePath=/task/swagger/(?<path>.*), /$\{path}
 
 eureka:
   instance:
