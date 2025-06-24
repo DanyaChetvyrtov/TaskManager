@@ -7,31 +7,49 @@ spring:
       server:
         webflux:
           routes:
+            # Account paths
             - id: account-service-api
               uri: lb://account-ms
               predicates:
                 - Path=/account/api/v1/**
               filters:
                 - RewritePath=/account/api/v1/(?<path>.*), /api/v1/$\{path}
-            - id: account-service-swagger
+
+            - id: account-swagger-ui
               uri: lb://account-ms
               predicates:
-                - Path=/account/swagger-ui.html
+                - Path=/account/swagger/**
               filters:
-                - SetPath=/swagger-ui.html
+                - RewritePath=/account/swagger/(?<path>.*), /swagger-ui/$\{path}
 
+            - id: account-api-docs
+              uri: lb://account-ms
+              predicates:
+                - Path=/account/v3/**
+              filters:
+                - RewritePath=/account/v3/(?<path>.*), /account/v3/$\{path}
+
+            # Task paths
             - id: task-service-api
               uri: lb://task-ms
               predicates:
                 - Path=/task/api/v1/**
               filters:
                 - RewritePath=/task/api/v1/(?<path>.*), /api/v1/$\{path}
-            - id: task-service-swagger
+
+            - id: task-swagger-ui
               uri: lb://task-ms
               predicates:
-                - Path=/task/swagger
+                - Path=/task/swagger/**
               filters:
-                - RewritePath=/task/swagger, /swagger-ui.html
+                - RewritePath=/task/swagger/(?<path>.*), /swagger-ui/$\{path}
+
+            - id: task-api-docs
+              uri: lb://task-ms
+              predicates:
+                - Path=/task/v3/**
+              filters:
+                - RewritePath=/task/v3/(?<path>.*), /task/v3/$\{path}
 
 eureka:
   instance:
