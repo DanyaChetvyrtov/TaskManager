@@ -17,6 +17,7 @@ import ru.zuzex.practice.accountms.repository.AccountRepository;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
 @Service
 @RequiredArgsConstructor
@@ -35,14 +36,11 @@ public class AccountService {
     }
 
     public Page<Account> search(SearchParameters searchParameters) {
-        var pageEntity = searchParameters.isIgnoreCase() ?
-                accountRepository.searchAnywhereInNameOrSurnameIgnoreCase(
-                        searchParameters.getQuery(), searchParameters.getPageRequest()
-                ) :
-                accountRepository.searchAnywhereInNameOrSurname(
-                        searchParameters.getQuery(), searchParameters.getPageRequest()
-                );
+        BiFunction<String, PageRequest, Page<Account>> method = searchParameters.isIgnoreCase() ?
+                accountRepository::searchAnywhereInNameOrSurnameIgnoreCase :
+                accountRepository::searchAnywhereInNameOrSurname;
 
+        var pageEntity = method.apply(searchParameters.getQuery(), searchParameters.getPageRequest());
         if (pageEntity.getTotalPages() < searchParameters.getPage()) throw new PageNotFound("Such page does not exist");
 
         return pageEntity;
