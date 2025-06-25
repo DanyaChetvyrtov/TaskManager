@@ -23,6 +23,7 @@ import ru.zuzex.practice.accountms.validation.OnUpdate;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Tag(name = "Account API", description = "Account endpoints")
 @RestController
@@ -46,15 +47,7 @@ public class AccountController {
             @RequestParam(value = "size", required = false, defaultValue = "5") Integer size
     ) {
         Page<Account> pageEntity = accountService.getAllAccounts(page, size);
-        var accounts = pageEntity.getContent().stream().map(accountMapper::toDto).toList();
-
-        PageResponse<AccountDto> response = PageResponse.<AccountDto>builder()
-                .content(accounts)
-                .totalPages(pageEntity.getTotalPages())
-                .totalElements(pageEntity.getTotalElements())
-                .curPage(page)
-                .pageSize(size)
-                .build();
+        var response = toPageResponse(pageEntity, accountMapper::toDto);
 
         return ResponseEntity.ok().body(response);
     }
@@ -81,14 +74,7 @@ public class AccountController {
                 .build();
 
         Page<Account> pageEntity = accountService.search(searchParams);
-        var accounts = pageEntity.getContent().stream().map(accountMapper::toDto).toList();
-        PageResponse<AccountDto> response = PageResponse.<AccountDto>builder()
-                .content(accounts)
-                .totalPages(pageEntity.getTotalPages())
-                .totalElements(pageEntity.getTotalElements())
-                .curPage(page)
-                .pageSize(size)
-                .build();
+        var response = toPageResponse(pageEntity, accountMapper::toDto);
 
         return ResponseEntity.ok().body(response);
     }
@@ -163,5 +149,17 @@ public class AccountController {
     public ResponseEntity<HttpStatus> deleteAccount(@PathVariable UUID accountId) {
         accountService.delete(accountId);
         return ResponseEntity.noContent().build();
+    }
+
+    private <T, R> PageResponse<R> toPageResponse(Page<T> pageEntity, Function<T, R> mapper) {
+        List<R> accounts = pageEntity.getContent().stream().map(mapper).toList();
+
+        return PageResponse.<R>builder()
+                .content(accounts)
+                .totalPages(pageEntity.getTotalPages())
+                .totalElements(pageEntity.getTotalElements())
+                .curPage(pageEntity.getNumber() + 1)
+                .pageSize(pageEntity.getSize())
+                .build();
     }
 }
