@@ -1,15 +1,20 @@
 package ru.zuzex.practice.accountms.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zuzex.practice.accountms.dto.kafka.AccountMessage;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 import ru.zuzex.practice.accountms.exception.exception.PageNotFound;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.repository.AccountRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +23,8 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final AccountProducer accountProducer;
+    private final ObjectMapper jacksonMapper;
 
     public Page<Account> getAllAccounts(Integer page, Integer size) {
         var pageEntity = accountRepository.findAll(PageRequest.of(page - 1, size));
@@ -30,7 +37,7 @@ public class AccountService {
     public List<Account> search(String keyword) {
         var accounts = accountRepository.searchAnywhereInNameOrSurname(keyword);
 
-        if(accounts.isEmpty()) throw new AccountNotFoundException("No accounts were found by '" + keyword + "'");
+        if (accounts.isEmpty()) throw new AccountNotFoundException("No accounts were found by '" + keyword + "'");
 
         return accounts;
     }
@@ -62,7 +69,19 @@ public class AccountService {
     }
 
     @Transactional
+    @SneakyThrows
     public void delete(UUID accountId) {
+        var accountMessage = AccountMessage.builder()
+                .id(UUID.randomUUID())
+                .accountId(accountId)
+                .eventType("DeleteAccount")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        ObjectWriter ow = jacksonMapper.writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(accountMessage);
+
+        accountProducer.sendMessage(json);
         accountRepository.deleteById(accountId);
     }
 }
