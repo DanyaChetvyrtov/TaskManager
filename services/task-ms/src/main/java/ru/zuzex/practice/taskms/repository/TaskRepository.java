@@ -13,8 +13,4 @@ import java.util.UUID;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {
     List<Task> findAllByAccountId(UUID accountId);
-
-    @Modifying
-    @Query("DELETE FROM Task t WHERE t.accountId = :accountId")
-    void deleteAllByAccountId(@Param("accountId") UUID accountId);
 }

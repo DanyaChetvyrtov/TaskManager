@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.taskms.dto.response.ExceptionResponse;
+import ru.zuzex.practice.taskms.exception.exception.LocalAccountNotFoundException;
 import ru.zuzex.practice.taskms.exception.exception.TaskNotFoundException;
 
 import java.time.LocalDateTime;
@@ -66,10 +67,12 @@ public class GlobalExceptionHandler {
                 .body(exceptionResponse);
     }
 
-    @ExceptionHandler(TaskNotFoundException.class)
+    @ExceptionHandler({
+            TaskNotFoundException.class, LocalAccountNotFoundException.class
+    })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(
-            TaskNotFoundException e,
+            Exception e,
             HttpServletRequest request
     ) {
         var exceptionResponse = ExceptionResponse.builder()
