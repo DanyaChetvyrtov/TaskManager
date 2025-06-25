@@ -40,6 +40,7 @@ dependencies {
 	// kafka
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("com.fasterxml.jackson.core:jackson-databind")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
 	// swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
