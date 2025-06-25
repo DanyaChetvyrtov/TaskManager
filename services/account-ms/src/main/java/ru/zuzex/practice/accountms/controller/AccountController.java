@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.zuzex.practice.accountms.client.TaskFeignClient;
 import ru.zuzex.practice.accountms.dto.AccountDto;
+import ru.zuzex.practice.accountms.dto.request.SearchParameters;
 import ru.zuzex.practice.accountms.dto.response.PageResponse;
 import ru.zuzex.practice.accountms.mapper.AccountMapper;
 import ru.zuzex.practice.accountms.model.Account;
@@ -66,11 +67,30 @@ public class AccountController {
                     @ApiResponse(responseCode = "404", description = "Accounts not found")
             }
     )
-    public ResponseEntity<List<AccountDto>> searchAccounts(@RequestParam("query") String query) {
-        var accounts = accountService.search(query)
-                .stream().map(accountMapper::toDto).toList();
+    public ResponseEntity<PageResponse<AccountDto>> searchAccounts(
+            @RequestParam("query") String query,
+            @RequestParam(value = "ignoreCase", required = false, defaultValue = "false") boolean ignoreCase,
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "5") Integer size
+    ) {
+        var searchParams = SearchParameters.builder()
+                .query(query)
+                .ignoreCase(ignoreCase)
+                .page(page)
+                .size(size)
+                .build();
 
-        return ResponseEntity.ok().body(accounts);
+        Page<Account> pageEntity = accountService.search(searchParams);
+        var accounts = pageEntity.getContent().stream().map(accountMapper::toDto).toList();
+        PageResponse<AccountDto> response = PageResponse.<AccountDto>builder()
+                .content(accounts)
+                .totalPages(pageEntity.getTotalPages())
+                .totalElements(pageEntity.getTotalElements())
+                .curPage(page)
+                .pageSize(size)
+                .build();
+
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{accountId}")

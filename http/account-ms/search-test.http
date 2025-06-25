@@ -1,0 +1,11 @@
+@path = http://localhost:8100/api/v1/account
+
+
+### GET search by name or surname
+GET {{path}}/search?query=Da
+
+### GET search by name or surname. Ignore case
+GET {{path}}/search?query=DA&ignoreCase=true
+
+### GET search by name or surname. Ignore case + pagination
+GET {{path}}/search?query=DA&ignoreCase=false&size=2&page=3

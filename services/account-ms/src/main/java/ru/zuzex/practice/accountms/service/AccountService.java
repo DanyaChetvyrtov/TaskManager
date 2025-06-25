@@ -9,13 +9,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zuzex.practice.accountms.dto.kafka.AccountMessage;
+import ru.zuzex.practice.accountms.dto.request.SearchParameters;
 import ru.zuzex.practice.accountms.exception.exception.AccountNotFoundException;
 import ru.zuzex.practice.accountms.exception.exception.PageNotFound;
 import ru.zuzex.practice.accountms.model.Account;
 import ru.zuzex.practice.accountms.repository.AccountRepository;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,12 +34,18 @@ public class AccountService {
         return pageEntity;
     }
 
-    public List<Account> search(String keyword) {
-        var accounts = accountRepository.searchAnywhereInNameOrSurname(keyword);
+    public Page<Account> search(SearchParameters searchParameters) {
+        var pageEntity = searchParameters.isIgnoreCase() ?
+                accountRepository.searchAnywhereInNameOrSurnameIgnoreCase(
+                        searchParameters.getQuery(), searchParameters.getPageRequest()
+                ) :
+                accountRepository.searchAnywhereInNameOrSurname(
+                        searchParameters.getQuery(), searchParameters.getPageRequest()
+                );
 
-        if (accounts.isEmpty()) throw new AccountNotFoundException("No accounts were found by '" + keyword + "'");
+        if (pageEntity.getTotalPages() < searchParameters.getPage()) throw new PageNotFound("Such page does not exist");
 
-        return accounts;
+        return pageEntity;
     }
 
     public Account getAccount(UUID accountId) {

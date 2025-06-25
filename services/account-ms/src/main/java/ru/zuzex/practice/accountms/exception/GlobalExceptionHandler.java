@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(
-            AccountNotFoundException e,
+            Exception e,
             HttpServletRequest request
     ) {
         var exceptionResponse = ExceptionResponse.builder()
