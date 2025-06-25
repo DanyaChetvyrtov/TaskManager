@@ -1,7 +1,0 @@
-@host = http://localhost:8110/api/kafka/send
-
-### POST test
-POST {{host}}
-#Content-Type: text/plain"
-
-SOsi

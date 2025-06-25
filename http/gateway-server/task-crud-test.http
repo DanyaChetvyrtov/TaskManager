@@ -1,4 +1,4 @@
-@path = http://localhost:8072/task
+@path = http://localhost:8072/task/api/v1/task
 #@accountId = f3ed0ff6-faec-4b9e-860d-0903eccf28b3
 @accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
 @taskId = 8bdde637-773a-4968-be78-de2d671648b6

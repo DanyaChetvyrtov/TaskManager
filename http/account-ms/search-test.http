@@ -8,4 +8,4 @@ GET {{path}}/search?query=Da
 GET {{path}}/search?query=DA&ignoreCase=true
 
 ### GET search by name or surname. Ignore case + pagination
-GET {{path}}/search?query=DA&ignoreCase=false&size=2&page=3
+GET {{path}}/search?query=DA&ignoreCase=true&size=5&page=1

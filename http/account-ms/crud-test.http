@@ -1,5 +1,10 @@
 @path = http://localhost:8100/api/v1/account
-@accountId = 63ba3c9a-4c86-4a24-8e8a-5601edc55ef4
+# много тасков
+#@accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
+# норм тасков
+@accountId = 6d93d949-8090-4faf-a6b5-ddcfa19d0047
+# 0 тасков
+#@accountId = e7fd72a2-2bec-4d38-bef7-e38b447e4fbe
 
 ### GET all accounts
 GET {{path}}
@@ -22,7 +27,7 @@ PUT {{path}}/{{accountId}}
 Content-Type: application/json
 
 {
-  "accountId": "f73185e5-99a6-45d5-bc62-15172237615f",
+  "accountId": "{{accountId}}",
   "name": "Sanya",
   "surname": "Sanya",
   "age": 22
