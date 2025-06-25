@@ -14,6 +14,7 @@ import ru.zuzex.practice.accountms.dto.AccountDto;
 import ru.zuzex.practice.accountms.dto.response.PageResponse;
 import ru.zuzex.practice.accountms.mapper.AccountMapper;
 import ru.zuzex.practice.accountms.model.Account;
+import ru.zuzex.practice.accountms.model.Task;
 import ru.zuzex.practice.accountms.service.AccountService;
 import ru.zuzex.practice.accountms.validation.OnCreate;
 import ru.zuzex.practice.accountms.validation.OnUpdate;
@@ -83,7 +84,13 @@ public class AccountController {
     public ResponseEntity<AccountDto> getAccountById(@PathVariable("accountId") UUID accountId) {
         var account = accountService.getAccount(accountId);
         var accountDto = accountMapper.toDto(account);
-        var tasks = taskFeignClient.getTasks(accountId);
+
+        List<Task> tasks;
+        try {
+            tasks = taskFeignClient.getTasks(accountId);
+        } catch (Exception e) {
+            tasks = List.of();
+        }
 
         accountDto.setTasks(tasks);
 
