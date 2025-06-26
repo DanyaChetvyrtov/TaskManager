@@ -21,6 +21,7 @@ import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class JwtTokenProvider {
         this.secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(Integer userId, String username) {
+    public String createAccessToken(UUID userId, String username) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
@@ -49,7 +50,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String createRefreshToken(Integer userId, String username) {
+    public String createRefreshToken(UUID userId, String username) {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("id", userId)
@@ -69,7 +70,7 @@ public class JwtTokenProvider {
         if (!isValid(refreshToken))
             throw new RuntimeException("Refresh was denied");
 
-        Integer userId = getId(refreshToken);
+        UUID userId = getId(refreshToken);
         User user = userService.getUser(userId);
 
         jwtResponse.setId(userId);
@@ -92,14 +93,14 @@ public class JwtTokenProvider {
         return claims.getPayload().getExpiration().after(new Date());
     }
 
-    private Integer getId(String token) {
+    private UUID getId(String token) {
         return Jwts
                 .parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("id", Integer.class);
+                .get("id", UUID.class);
     }
 
     private String getUsername(String token) {

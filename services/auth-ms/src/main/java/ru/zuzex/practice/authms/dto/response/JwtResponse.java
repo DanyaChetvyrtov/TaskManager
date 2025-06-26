@@ -2,9 +2,11 @@ package ru.zuzex.practice.authms.dto.response;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class JwtResponse {
-    private Integer id;
+    private UUID id;
     private String username;
     private String accessToken;
     private String refreshToken;
