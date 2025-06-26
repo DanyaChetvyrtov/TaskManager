@@ -9,11 +9,12 @@ import ru.zuzex.practice.authms.model.Role;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 public class JwtEntity implements UserDetails {
-    private Integer id;
+    private UUID id;
     private String username;
     private String password;
     private Set<Role> roles;
