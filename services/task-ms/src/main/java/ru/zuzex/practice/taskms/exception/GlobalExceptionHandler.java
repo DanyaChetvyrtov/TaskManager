@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.taskms.dto.response.ExceptionResponse;
 import ru.zuzex.practice.taskms.exception.exception.LocalAccountNotFoundException;
+import ru.zuzex.practice.taskms.exception.exception.TaskAlreadyAssignedException;
 import ru.zuzex.practice.taskms.exception.exception.TaskNotFoundException;
 
 import java.time.LocalDateTime;
@@ -47,7 +48,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            TaskAlreadyAssignedException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionResponse> handleBadRequestException(

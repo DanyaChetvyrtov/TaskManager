@@ -3,8 +3,11 @@ package ru.zuzex.practice.taskms.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zuzex.practice.taskms.exception.exception.LocalAccountNotFoundException;
+import ru.zuzex.practice.taskms.exception.exception.TaskAlreadyAssignedException;
 import ru.zuzex.practice.taskms.exception.exception.TaskNotFoundException;
 import ru.zuzex.practice.taskms.model.Task;
+import ru.zuzex.practice.taskms.repository.LocalAccountRepository;
 import ru.zuzex.practice.taskms.repository.TaskRepository;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class TaskService {
     private final TaskRepository taskRepository;
+    private final LocalAccountRepository localAccountRepository;
 
     public List<Task> getAllByAccountId(UUID accountId) {
         var tasks = taskRepository.findAllByAccountId(accountId);
@@ -57,6 +61,13 @@ public class TaskService {
     @Transactional
     public void reassign(UUID taskId, UUID newAccountId) {
         var task = getTask(taskId);
+        var localAccount = localAccountRepository.findById(newAccountId).orElseThrow(LocalAccountNotFoundException::new);
+
+        if(!localAccount.isActive())
+            throw new LocalAccountNotFoundException();
+
+        if(task.getAccountId().equals(newAccountId))
+            throw new TaskAlreadyAssignedException("Current task already assigned to user with ID: " + newAccountId);
 
         task.setAccountId(newAccountId);
         taskRepository.save(task);
