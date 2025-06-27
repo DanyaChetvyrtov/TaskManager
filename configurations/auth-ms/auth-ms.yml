@@ -40,3 +40,9 @@ eureka:
 
 server:
   port: 8120
+
+security:
+  jwt:
+    secret: ${SECRET_KEY}
+    accessDuration: ${ACCESS_DURATION}
+    refreshDuration: ${REFRESH_DURATION}
