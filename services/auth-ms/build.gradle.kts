@@ -34,6 +34,7 @@ dependencies {
 
 	// db
 	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.liquibase:liquibase-core")
 
 	// mapper
 	implementation("org.mapstruct:mapstruct:1.6.3")
