@@ -13,7 +13,7 @@ CREATE TABLE auth_users
     password   varchar(512) NOT NULL,
     is_active  boolean   DEFAULT true,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp DEFAULT CURRENT_TIMESTAMP,
+    deleted_at timestamp,
     last_login timestamp    NULL
 );
 

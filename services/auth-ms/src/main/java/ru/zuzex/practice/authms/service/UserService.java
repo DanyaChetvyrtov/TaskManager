@@ -11,6 +11,7 @@ import ru.zuzex.practice.authms.model.User;
 import ru.zuzex.practice.authms.repository.RoleRepository;
 import ru.zuzex.practice.authms.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class UserService {
 
         var userRole = roleRepository.findByName("ROLE_USER").orElseThrow(RoleNotFoundException::new);
         user.setRoles(Set.of(userRole));
+        user.setIsActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
@@ -59,6 +61,13 @@ public class UserService {
 //
 //        return userRepository.save(userDB);
 //    }
+
+    @Transactional
+    public void updateLastLogin(UUID userId){
+        var user = getUser(userId);
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+    }
 //
 //    @Transactional
 //    public void delete(UUID id) {

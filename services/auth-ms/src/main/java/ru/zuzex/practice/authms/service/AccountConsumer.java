@@ -1,4 +1,4 @@
-package ru.zuzex.practice.taskms.service;
+package ru.zuzex.practice.authms.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -6,10 +6,9 @@ import lombok.SneakyThrows;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.zuzex.practice.taskms.dto.kafka.AccountMessage;
-import ru.zuzex.practice.taskms.exception.exception.LocalAccountNotFoundException;
-import ru.zuzex.practice.taskms.model.LocalAccount;
-import ru.zuzex.practice.taskms.repository.LocalAccountRepository;
+import ru.zuzex.practice.authms.dto.kafka.AccountMessage;
+import ru.zuzex.practice.authms.exception.exception.UserNotFoundException;
+import ru.zuzex.practice.authms.repository.UserRepository;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class AccountConsumer {
     private final ObjectMapper jacksonMapper;
-    private final LocalAccountRepository localAccountRepository;
+    private final UserRepository userRepository;
 
     @SneakyThrows
     @Transactional
@@ -28,19 +27,13 @@ public class AccountConsumer {
         System.out.println("Received Message: " + accountMessage);
 
         if (accountMessage.getEventType().equals("DeleteAccount")) {
-            var localAccount = localAccountRepository.findById(accountMessage.getAccountId())
-                    .orElseThrow(LocalAccountNotFoundException::new);
+            var localAccount = userRepository.findById(accountMessage.getAccountId())
+                    .orElseThrow(UserNotFoundException::new);
 
             localAccount.setIsActive(false);
             localAccount.setDeletedAt(LocalDateTime.now());
-            localAccountRepository.save(localAccount);
+            userRepository.save(localAccount);
 //            taskRepository.deleteAllByAccountId(accountMessage.getAccountId());
-        } else if (accountMessage.getEventType().equals("CreateAccount")) {
-            var newAccount = new LocalAccount();
-            newAccount.setAccountId(accountMessage.getAccountId());
-            newAccount.setIsActive(true);
-
-            localAccountRepository.save(newAccount);
-        } else System.out.println("Invalid event type: " + accountMessage.getEventType());
+        }  else System.out.println("Invalid event type: " + accountMessage.getEventType());
     }
 }

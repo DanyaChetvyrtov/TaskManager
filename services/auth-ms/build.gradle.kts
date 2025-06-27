@@ -32,6 +32,11 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
+	// kafka
+	implementation("org.springframework.kafka:spring-kafka")
+	implementation("com.fasterxml.jackson.core:jackson-databind")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
 	// db
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
