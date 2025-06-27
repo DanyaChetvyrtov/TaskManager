@@ -46,7 +46,7 @@ public class JwtTokenProvider {
                 .add("roles", user.getRoles().stream().map(Role::getName).toList())
                 .build();
         Instant validity = Instant.now()
-                .plus(jwtProperties.getAccessDuration(), ChronoUnit.HOURS);
+                .plus(jwtProperties.getAccessDuration(), ChronoUnit.MINUTES);
         return Jwts.builder()
                 .claims(claims)
                 .expiration(Date.from(validity))
