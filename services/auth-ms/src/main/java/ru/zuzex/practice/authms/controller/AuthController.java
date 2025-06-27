@@ -15,6 +15,7 @@ import ru.zuzex.practice.authms.mapper.UserMapper;
 import ru.zuzex.practice.authms.model.User;
 import ru.zuzex.practice.authms.service.AuthService;
 import ru.zuzex.practice.authms.service.UserService;
+import ru.zuzex.practice.authms.validation.OnCreate;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -26,14 +27,17 @@ public class AuthController {
     private final UserMapper userMapper;
 
     @PostMapping("/login")
-    public JwtResponse login(@RequestBody JwtRequest loginRequest) {
+    public JwtResponse login(@RequestBody @Validated JwtRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> register(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
+        System.out.println(userDto);
         var user = userMapper.toEntity(userDto);
+        System.out.println(userDto);
         userDto = userMapper.toDto(userService.create(user));
+        System.out.println(userDto);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 

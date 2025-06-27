@@ -36,7 +36,7 @@ public class UserService {
 
     @Transactional
     public User create(User user) {
-        user.setRoles(Set.of(Role.ROLE_USER));
+        user.setRoles(Set.of(new Role(1, "ROLE_USER")));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -46,9 +46,7 @@ public class UserService {
         var userDB = userRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("User with such id does not exist"));
 
-        userDB.setAge(user.getAge());
         userDB.setUsername(user.getUsername());
-        userDB.setEmail(user.getEmail());
         userDB.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(userDB);

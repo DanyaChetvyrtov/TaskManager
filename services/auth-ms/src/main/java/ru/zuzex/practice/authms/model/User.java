@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "auth_users", schema = "auth_user_dev")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,26 +20,32 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "age", nullable = false)
-    private int age;
-    @Column(name = "email", nullable = false)
-    private String email;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
-    @CollectionTable(name = "user_roles")
-    @Enumerated(value = EnumType.STRING)
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @OneToMany
+    @JoinTable(
+            name = "auth_user_roles",
+            schema = "auth_user_dev",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles;
+
+
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @PrePersist
     public void onCreate() {
