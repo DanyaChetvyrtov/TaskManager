@@ -28,7 +28,7 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "auth_user_roles",
             schema = "auth_user_dev",
