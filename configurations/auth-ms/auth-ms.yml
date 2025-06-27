@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    vault:
+      uri: http://localhost:8200
+      token: myroot
+      kv:
+        enabled: true
+        backend: secret
+        default-context: "kv/auth-ms"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/auth_user_db?currentSchema=auth_user_dev
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  sql:
+    init:
+      schema-locations: classpath:/sql/schema-dev.sql
+      mode: always
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: auth_user_dev
+
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.yml
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      default-zone: http://localhost:8761/eureka/
+
+server:
+  port: 8120
