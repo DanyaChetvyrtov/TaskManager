@@ -33,7 +33,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
         var user = userMapper.toEntity(userDto);
-        userDto = userMapper.toDto(userService.create(user));
+        userDto = userMapper.toDto(userService.create(user, userDto.getPasswordConfirmation()));
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 

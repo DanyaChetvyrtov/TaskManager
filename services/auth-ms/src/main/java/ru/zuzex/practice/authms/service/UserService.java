@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zuzex.practice.authms.exception.exception.PasswordsDoNotMatchException;
 import ru.zuzex.practice.authms.exception.exception.UserNotFoundException;
-import ru.zuzex.practice.authms.model.Role;
 import ru.zuzex.practice.authms.model.User;
+import ru.zuzex.practice.authms.repository.RoleRepository;
 import ru.zuzex.practice.authms.repository.UserRepository;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<User> getUsers() {
@@ -36,9 +38,13 @@ public class UserService {
 
 
     @Transactional
-    public User create(User user) {
-        user.setRoles(Set.of(new Role(1, "ROLE_USER")));
+    public User create(User user, String passwordConfirmation) {
+        if (!user.getPassword().equals(passwordConfirmation)) throw new PasswordsDoNotMatchException();
+
+        var userRole = roleRepository.findByName("ROLE_USER");
+        user.setRoles(Set.of(userRole));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 

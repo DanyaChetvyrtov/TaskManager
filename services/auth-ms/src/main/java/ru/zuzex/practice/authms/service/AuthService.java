@@ -16,23 +16,18 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public JwtResponse login(JwtRequest loginRequest) {
-        var jwtResponse = new JwtResponse();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
         var user = userService.getUser(loginRequest.getUsername());
 
-        jwtResponse.setId(user.getId());
-        jwtResponse.setUsername(user.getUsername());
-        jwtResponse.setAccessToken(
-                jwtTokenProvider.createAccessToken(user)
-        );
-        jwtResponse.setRefreshToken(
-                jwtTokenProvider.createRefreshToken(user.getId(), user.getUsername())
-        );
-
-        return jwtResponse;
+        return JwtResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .accessToken(jwtTokenProvider.createAccessToken(user))
+                .refreshToken(jwtTokenProvider.createRefreshToken(user.getId(), user.getUsername()))
+                .build();
     }
 
     public JwtResponse refresh(String refreshToken) {

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.zuzex.practice.authms.dto.response.JwtResponse;
+import ru.zuzex.practice.authms.exception.exception.InvalidTokenException;
 import ru.zuzex.practice.authms.model.Role;
 import ru.zuzex.practice.authms.model.User;
 import ru.zuzex.practice.authms.service.UserService;
@@ -22,7 +23,6 @@ import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -70,22 +70,17 @@ public class JwtTokenProvider {
 
     @SneakyThrows
     public JwtResponse refreshUserTokens(String refreshToken) {
-        JwtResponse jwtResponse = new JwtResponse();
-        if (!isValid(refreshToken))
-            throw new RuntimeException("Refresh was denied");
+        if (!isValid(refreshToken)) throw new InvalidTokenException("Refresh token is expired");
 
         UUID userId = getId(refreshToken);
         User user = userService.getUser(userId);
 
-        jwtResponse.setId(userId);
-        jwtResponse.setUsername(user.getUsername());
-        jwtResponse.setAccessToken(
-                createAccessToken(user)
-        );
-        jwtResponse.setRefreshToken(
-                createRefreshToken(userId, user.getUsername())
-        );
-        return jwtResponse;
+        return JwtResponse.builder()
+                .id(userId)
+                .username(user.getUsername())
+                .accessToken(createAccessToken(user))
+                .refreshToken(createRefreshToken(userId, user.getUsername()))
+                .build();
     }
 
     public boolean isValid(String token) {

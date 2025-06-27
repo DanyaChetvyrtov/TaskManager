@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.authms.dto.response.ExceptionResponse;
+import ru.zuzex.practice.authms.exception.exception.PasswordsDoNotMatchException;
 import ru.zuzex.practice.authms.exception.exception.UserNotFoundException;
 
 import java.time.LocalDateTime;
@@ -46,7 +47,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            PasswordsDoNotMatchException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionResponse> handleBadRequestException(
