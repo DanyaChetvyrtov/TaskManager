@@ -12,7 +12,6 @@ import ru.zuzex.practice.authms.dto.UserDto;
 import ru.zuzex.practice.authms.dto.request.JwtRequest;
 import ru.zuzex.practice.authms.dto.response.JwtResponse;
 import ru.zuzex.practice.authms.mapper.UserMapper;
-import ru.zuzex.practice.authms.model.User;
 import ru.zuzex.practice.authms.service.AuthService;
 import ru.zuzex.practice.authms.service.UserService;
 import ru.zuzex.practice.authms.validation.OnCreate;
@@ -33,11 +32,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Validated(OnCreate.class) UserDto userDto) {
-        System.out.println(userDto);
         var user = userMapper.toEntity(userDto);
-        System.out.println(userDto);
         userDto = userMapper.toDto(userService.create(user));
-        System.out.println(userDto);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
     }
 

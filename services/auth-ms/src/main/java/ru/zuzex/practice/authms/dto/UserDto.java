@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import ru.zuzex.practice.authms.model.Role;
 import ru.zuzex.practice.authms.validation.OnCreate;
 import ru.zuzex.practice.authms.validation.OnUpdate;
 import ru.zuzex.practice.authms.validation.UniqueUsername;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -30,7 +28,9 @@ public class UserDto {
     private Boolean isActive;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull(message = "Password must be not null", groups = {OnCreate.class})
     private String password;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull(message = "Password confirmation must be not null", groups = {OnCreate.class})
     private String passwordConfirmation;
 }
