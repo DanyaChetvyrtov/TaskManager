@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import ru.zuzex.practice.authms.dto.response.JwtResponse;
+import ru.zuzex.practice.authms.model.Role;
 import ru.zuzex.practice.authms.model.User;
 import ru.zuzex.practice.authms.service.UserService;
 
@@ -21,7 +22,9 @@ import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+
 
 @Component
 @RequiredArgsConstructor
@@ -36,10 +39,11 @@ public class JwtTokenProvider {
         this.secretKey = Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes());
     }
 
-    public String createAccessToken(UUID userId, String username) {
+    public String createAccessToken(User user) {
         Claims claims = Jwts.claims()
-                .subject(username)
-                .add("id", userId)
+                .subject(user.getUsername())
+                .add("id", user.getId())
+                .add("roles", user.getRoles().stream().map(Role::getName).toList())
                 .build();
         Instant validity = Instant.now()
                 .plus(jwtProperties.getAccessDuration(), ChronoUnit.HOURS);
@@ -76,7 +80,7 @@ public class JwtTokenProvider {
         jwtResponse.setId(userId);
         jwtResponse.setUsername(user.getUsername());
         jwtResponse.setAccessToken(
-                createAccessToken(userId, user.getUsername())
+                createAccessToken(user)
         );
         jwtResponse.setRefreshToken(
                 createRefreshToken(userId, user.getUsername())
@@ -94,23 +98,20 @@ public class JwtTokenProvider {
     }
 
     private UUID getId(String token) {
-        return Jwts
-                .parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .get("id", UUID.class);
+        return UUID.fromString(getClaims(token).get("id", String.class));
     }
 
     private String getUsername(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    private Claims getClaims(String token) {
         return Jwts
                 .parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+                .getPayload();
     }
 
     public Authentication getAuthentication(String token) {

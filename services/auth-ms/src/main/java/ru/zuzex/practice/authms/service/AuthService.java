@@ -26,7 +26,7 @@ public class AuthService {
         jwtResponse.setId(user.getId());
         jwtResponse.setUsername(user.getUsername());
         jwtResponse.setAccessToken(
-                jwtTokenProvider.createAccessToken(user.getId(), user.getUsername())
+                jwtTokenProvider.createAccessToken(user)
         );
         jwtResponse.setRefreshToken(
                 jwtTokenProvider.createRefreshToken(user.getId(), user.getUsername())
