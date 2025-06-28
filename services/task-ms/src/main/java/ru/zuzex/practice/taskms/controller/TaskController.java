@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.zuzex.practice.taskms.dto.TaskDto;
@@ -28,6 +29,7 @@ public class TaskController {
 
 
     @GetMapping
+    @PreAuthorize("@customSecurityExpression.hasPermissionTaskS_(#accountId)")
     @Operation(
             summary = "Receive all account tasks by its ID",
             responses = {
@@ -43,6 +45,7 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
+    @PreAuthorize("@customSecurityExpression.hasPermissionTask(#taskId)")
     @Operation(
             summary = "Receive a specific task by its ID",
             responses = {
@@ -57,6 +60,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @PreAuthorize("@customSecurityExpression.canCreate(#taskDto.accountId)")
     @Operation(
             summary = "Create new Task",
             responses = {
@@ -76,6 +80,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
+    @PreAuthorize("@customSecurityExpression.isOwner(#taskId)")
     @Operation(
             summary = "Update a specific task by its ID",
             responses = {
@@ -95,6 +100,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
+    @PreAuthorize("@customSecurityExpression.hasPermissionTask(#taskId)")
     @Operation(
             summary = "Delete a specific task by its ID",
             responses = {
@@ -107,6 +113,7 @@ public class TaskController {
     }
 
     @PutMapping("/reassign/{taskId}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Reassign existed Task to other Account",
             responses = {

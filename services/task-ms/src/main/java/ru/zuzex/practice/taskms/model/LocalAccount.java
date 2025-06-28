@@ -22,7 +22,7 @@ public class LocalAccount {
     private UUID accountId;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    private Boolean isActive;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;

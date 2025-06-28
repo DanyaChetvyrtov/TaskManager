@@ -63,7 +63,7 @@ public class TaskService {
         var task = getTask(taskId);
         var localAccount = localAccountRepository.findById(newAccountId).orElseThrow(LocalAccountNotFoundException::new);
 
-        if(!localAccount.isActive())
+        if(!localAccount.getIsActive())
             throw new LocalAccountNotFoundException();
 
         if(task.getAccountId().equals(newAccountId))
