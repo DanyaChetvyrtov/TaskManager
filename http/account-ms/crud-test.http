@@ -1,41 +1,41 @@
 @path = http://localhost:8100/api/v1/account
 # много тасков
-#@accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
-# норм тасков
-@accountId = a5d060f9-31ca-47b7-8fed-57b2b9cf388c
-# 0 тасков
-#@accountId = e7fd72a2-2bec-4d38-bef7-e38b447e4fbe
+@accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
 
-
-@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjJmYjAzMmE4LWYyNmEtNDkwNC04YTVkLWNlNGM2ZWVmNDUwZCIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMDQ4MDEyfQ.r7wZiluJTiRqRIY3k-ayKcWsj0o48k3jawEYdsOSK2z9UDUzHEDMT-yv5zxcDCd0cGq-NGy58t606Y308oYOTA
+@danilToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMTUyOTJ9.byUsnlVq8XmkZ6dgzw0zPoLjdnJIgefEDyHYuhbCKM9xAAWlAHqGMQhrtarAPh8aoX1kgLRNYWWeR3Px4ZlBmQ
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTE1MzM1fQ.7m7TsuhxPwbSqfaaFmOrtZdvAnfVUjeVmYhK2f_PBUhO4gyUFi_0oLJbJ8wMYjFKZc-me1fE1qsNUeCiNj1LCA
 
 ### GET all accounts
 GET {{path}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{adminToken}}
 
 ### GET by id
 GET {{path}}/{{accountId}}
+Authorization: Bearer {{danilToken}}
 
 ### POST create new account
 POST {{path}}
 Content-Type: application/json
+Authorization: Bearer {{danilToken}}
 
 {
-  "name": "Pasha",
-  "surname": "Petroshevich",
+  "name": "!!! Test Danil !!!",
+  "surname": "!!! Test Danil !!!",
   "age": 27
 }
 
 ### PUT update account
 PUT {{path}}/{{accountId}}
 Content-Type: application/json
+Authorization: Bearer {{danilToken}}
 
 {
   "accountId": "{{accountId}}",
-  "name": "Pashetet",
-  "surname": "Petroshevich",
+  "name": "Pashetet UPDATED BY ADMIN",
+  "surname": "Petroshevich UPDATED BY ADMIN",
   "age": 24
 }
 
 ### DELETE by id
 DELETE {{path}}/{{accountId}}
+Authorization: Bearer {{danilToken}}
