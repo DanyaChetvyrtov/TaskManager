@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.zuzex.practice.accountms.client.TaskFeignClient;
@@ -35,6 +36,7 @@ public class AccountController {
     private final TaskFeignClient taskFeignClient;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Receive all accounts",
             responses = {
@@ -52,7 +54,9 @@ public class AccountController {
         return ResponseEntity.ok().body(response);
     }
 
+
     @GetMapping("/search")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(
             summary = "Search accounts by query(name or surname)",
             responses = {
@@ -80,6 +84,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}")
+    @PreAuthorize("@customSecurityExpression.hasPermission(#accountId)")
     @Operation(
             summary = "Receive account and its Tasks by ID",
             responses = {
@@ -122,6 +127,7 @@ public class AccountController {
     }
 
     @PutMapping("/{accountId}")
+    @PreAuthorize("@customSecurityExpression.isOwner(#accountId)")
     @Operation(
             summary = "Update account",
             responses = {
@@ -139,7 +145,9 @@ public class AccountController {
         return ResponseEntity.ok().body(accountMapper.toDto(account));
     }
 
+
     @DeleteMapping("/{accountId}")
+    @PreAuthorize("@customSecurityExpression.hasPermission(#accountId)")
     @Operation(
             summary = "Update account",
             responses = {

@@ -15,7 +15,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
     private UUID accountId;
 
