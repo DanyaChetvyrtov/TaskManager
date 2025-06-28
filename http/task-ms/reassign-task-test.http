@@ -1,7 +1,10 @@
 @path = http://localhost:8110/api/v1/task/reassign
-@accountId = 5bc388a6-f95d-459d-b5b5-51b63e01c533
-@taskId = c2fbfb0a-f7c6-429e-b642-9ed03ce4d3ce
+@accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
+@taskId =3496472f-1c07-43c3-845f-361d4b933196
 
+@userToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMzE5OTZ9.64Q58-DtiQpOlmk9unwwsyyaSRqkFurxU0L4Q2PeIURcJJZVJEo18Axlloj1AwA2JT6AN6nvIIA4yY5xdwBpjg
+@adminToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTMxOTc3fQ.gYZD4QCFUOZ94ITotl6nRL6yWoGHpL--ZC3FQSPvZYebbjxy74_rzwVq9ZdE1U-2g3o4dbbOXhuzJY3p-Jjxlw
 
 ### PUT
 PUT {{path}}/{{taskId}}?newAccountId={{accountId}}
+Authorization: Bearer {{adminToken}}

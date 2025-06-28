@@ -1,36 +1,45 @@
 @path = http://localhost:8110/api/v1/task
 #@accountId = f3ed0ff6-faec-4b9e-860d-0903eccf28b3
-@accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
-@taskId = 3e646489-eb42-4fd4-9513-432d2cbf892e
+@accountId =7b9a1e5c-0412-4210-a720-4487c938cc0e
+#@accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
+@taskId =0c1c6f7b-3940-4ecb-8881-dda70d6f799c
+
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTMxODgyfQ.jaa68Oq7hYxjjBHdRbkuy5OE3032fwxudSh3npXVjrVV5e80RZqu596O2Zk8557GS5A72DaqoChYH3fN4WZg7A
 
 ### GET all tasks by account id
 GET {{path}}?accountId={{accountId}}
+Authorization: Bearer {{token}}
 
 ### GET by id
 GET {{path}}/{{taskId}}
+Authorization: Bearer {{token}}
 
-### POST create new account
+### POST create new task
 POST {{path}}
 Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
 
 {
-  "accountId":  "4e4d7031-9ede-4968-b1dd-90b8d95d2a38",
-  "title": "VERY COOL TITLE FOR TIMUR TASK",
-  "body": "EVEN MORE COOL DESCRIPTION FOR TIMUR TASK. ONOGI",
+  "accountId":  "{{accountId}}",
+  "title": "Test task for Pashtet 4222 NEW TASK",
+  "body": "Test task for Pashtet with noticeable description task 4222 NEW TASK",
   "completed": false
 }
 
-### PUT update account
+### PUT update task
 PUT {{path}}/{{taskId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "taskId": "fb5a2ab9-0f13-4041-ae88-ea62a54f17dc",
-  "accountId":  "4e4d7031-9ede-4968-b1dd-90b8d95d2a38",
-  "title": "TIMUR TASK",
-  "body": "TIMUR TASK",
+  "taskId": "{{taskId}}",
+  "accountId":  "{{accountId}}",
+  "title": "Test UPDATED",
+  "body": "Test UPDATED",
   "completed": true
 }
 
 ### DELETE by id
 DELETE {{path}}/{{taskId}}
+Authorization: Bearer {{token}}
