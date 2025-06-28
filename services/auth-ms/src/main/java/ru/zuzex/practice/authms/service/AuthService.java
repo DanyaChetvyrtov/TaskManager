@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zuzex.practice.authms.dto.request.JwtRequest;
 import ru.zuzex.practice.authms.dto.response.JwtResponse;
+import ru.zuzex.practice.authms.exception.exception.UserNotFoundException;
 import ru.zuzex.practice.authms.security.jwt.JwtTokenProvider;
 
 @Service
@@ -19,11 +20,14 @@ public class AuthService {
 
     @Transactional
     public JwtResponse login(JwtRequest loginRequest) {
+        var user = userService.getUser(loginRequest.getUsername());
+        // user was deactivated
+        if(!user.getIsActive()) throw new UserNotFoundException();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
-        var user = userService.getUser(loginRequest.getUsername());
+
         userService.updateLastLogin(user.getId());
 
         return JwtResponse.builder()

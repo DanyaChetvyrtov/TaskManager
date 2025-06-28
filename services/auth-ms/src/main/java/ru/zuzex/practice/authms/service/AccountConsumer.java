@@ -20,7 +20,7 @@ public class AccountConsumer {
 
     @SneakyThrows
     @Transactional
-    @KafkaListener(topics = "tasks-topic", groupId = "account-group")
+    @KafkaListener(topics = "tasks-topic", groupId = "authentication-group")
     public void listen(String message) {
 
         AccountMessage accountMessage = jacksonMapper.readValue(message, AccountMessage.class);
@@ -33,7 +33,6 @@ public class AccountConsumer {
             localAccount.setIsActive(false);
             localAccount.setDeletedAt(LocalDateTime.now());
             userRepository.save(localAccount);
-//            taskRepository.deleteAllByAccountId(accountMessage.getAccountId());
         }  else System.out.println("Invalid event type: " + accountMessage.getEventType());
     }
 }

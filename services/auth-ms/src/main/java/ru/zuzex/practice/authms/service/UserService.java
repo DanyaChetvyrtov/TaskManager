@@ -68,11 +68,6 @@ public class UserService {
         user.setLastLogin(LocalDateTime.now());
         userRepository.save(user);
     }
-//
-//    @Transactional
-//    public void delete(UUID id) {
-//        userRepository.deleteById(id);
-//    }
 
     @Transactional
     public void makeAdmin(UUID userId) {
