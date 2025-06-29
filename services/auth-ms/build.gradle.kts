@@ -43,6 +43,7 @@ dependencies {
 	// db
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.liquibase:liquibase-core")
+	implementation("net.lbruun.springboot:preliquibase-spring-boot-starter:1.6.1")
 
 	// mapper
 	implementation("org.mapstruct:mapstruct:1.6.3")
