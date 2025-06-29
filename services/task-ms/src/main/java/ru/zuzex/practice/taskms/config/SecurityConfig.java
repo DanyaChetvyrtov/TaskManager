@@ -3,7 +3,6 @@ package ru.zuzex.practice.taskms.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -26,8 +25,6 @@ public class SecurityConfig {
     public SecurityConfig(@Lazy JwtTokenUtils jwtTokenUtils) {
         this.jwtTokenUtils = jwtTokenUtils;
     }
-
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -58,8 +55,8 @@ public class SecurityConfig {
 //                        )
 //                )
                 .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/account/v3/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/task/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtTokenFilter(jwtTokenUtils), UsernamePasswordAuthenticationFilter.class)

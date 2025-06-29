@@ -1,13 +1,13 @@
 package ru.zuzex.practice.taskms.security.jwt;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,51 +27,33 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer "))
+            bearerToken = bearerToken.substring(7);
+
         try {
-            String authHeader = request.getHeader("Authorization");
+            if (bearerToken != null && jwtTokenUtils.isValid(bearerToken)) {
+                var jwtUser = new JwtUser(
+                        jwtTokenUtils.getId(bearerToken),
+                        jwtTokenUtils.getUsername(bearerToken),
+                        jwtTokenUtils.getRoles(bearerToken)
+                );
 
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                logger.warn("Missing or invalid Authorization header");
-//                sendError(response, "Missing or invalid token", HttpStatus.UNAUTHORIZED);
-                return;
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        jwtUser, bearerToken, jwtUser.getAuthorities()
+                );
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
-            String token = authHeader.substring(7);
-            if (token.isBlank()) {
-                logger.warn("Empty JWT token");
-//                sendError(response, "Empty token", HttpStatus.UNAUTHORIZED);
-                return;
-            }
-
-            if (!jwtTokenUtils.isValid(token)) {
-                logger.warn("Invalid JWT token");
-//                sendError(response, "Invalid token", HttpStatus.FORBIDDEN);
-                return;
-            }
-
-            var jwtUser = new JwtUser(
-                    jwtTokenUtils.getId(token),
-                    jwtTokenUtils.getUsername(token),
-                    jwtTokenUtils.getRoles(token)
-            );
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    jwtUser, null, jwtUser.getAuthorities()
-            );
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            filterChain.doFilter(request, response);
-        } catch (Exception ex) {
-            logger.error("JWT validation error", ex);
-//            sendError(response, "JWT processing error", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ExpiredJwtException expiredTokenException) {
+            logger.warn("Expired JWT token for user: {}", expiredTokenException.getClaims().getSubject());
+//            throw new ExpiredTokenException();
+        } catch (Exception ignored) {
+            logger.error(ignored.getMessage());
+            return;
         }
-    }
 
-    private void sendError(HttpServletResponse response, String message, HttpStatus status)
-            throws IOException {
-        response.setStatus(status.value());
-        response.getWriter().write(message);
-        response.setContentType("text/plain");
+        filterChain.doFilter(request, response);
     }
 }
