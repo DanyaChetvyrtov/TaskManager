@@ -1,4 +1,0 @@
-eureka:
-  client:
-    serviceUrl:
-      default-zone: http://eureka-server:8761/eureka/
