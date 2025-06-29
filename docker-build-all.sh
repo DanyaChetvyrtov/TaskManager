@@ -17,7 +17,14 @@ build_service() {
 }
 
 # Сборка всех микросервисов
+# Первый параметр - папка/модуль микросервиса в директории ./services/
+# Второй параметр - название образа
 build_service "config-server" "danilchet/zuzex-config-server-ms"
 build_service "eureka-server" "danilchet/zuzex-eureka-server-ms"
+build_service "gateway-server" "danilchet/zuzex-gateway-server-ms"
+
+build_service "auth-ms" "danilchet/zuzex-auth-ms"
+build_service "account-ms" "danilchet/zuzex-account-ms"
+build_service "task-ms" "danilchet/zuzex-task-ms"
 
 echo "All images built successfully"
