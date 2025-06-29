@@ -8,8 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import ru.zuzex.practice.accountms.security.Role;
 
@@ -40,6 +39,15 @@ public class JwtTokenUtils {
                 .build()
                 .parseSignedClaims(token);
         return claims.getPayload().getExpiration().after(new Date());
+    }
+
+    public String getToken(){
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getCredentials() == null)
+            // TODO обработать ошибку
+            throw new IllegalStateException("JWT token not found in SecurityContext");
+
+        return (String) auth.getCredentials();
     }
 
     public UUID getId(String token) {
