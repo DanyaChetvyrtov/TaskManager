@@ -2,4 +2,4 @@
 
 ## Архитектура
 
-![Architecture Diagram](docs/ZUZEX_TaskManager.drawio.png)
+![Architecture Diagram](docs/architecture.png)
