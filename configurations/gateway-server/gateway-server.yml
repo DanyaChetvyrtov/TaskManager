@@ -51,6 +51,28 @@ spring:
               filters:
                 - RewritePath=/task/v3/(?<path>.*), /task/v3/$\{path}
 
+            # Auth paths
+            - id: auth-service-api
+              uri: lb://auth-ms
+              predicates:
+                - Path=/auth/api/v1/**
+              filters:
+                - RewritePath=/auth/api/v1/(?<path>.*), /api/v1/$\{path}
+
+            - id: auth-swagger-ui
+              uri: lb://auth-ms
+              predicates:
+                - Path=/auth/swagger/**
+              filters:
+                - RewritePath=/auth/swagger/(?<path>.*), /swagger-ui/$\{path}
+
+            - id: auth-api-docs
+              uri: lb://auth-ms
+              predicates:
+                - Path=/auth/v3/**
+              filters:
+                - RewritePath=/auth/v3/(?<path>.*), /task/v3/$\{path}
+
 eureka:
   instance:
     prefer-ip-address: true
