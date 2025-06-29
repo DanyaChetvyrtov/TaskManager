@@ -1,0 +1,10 @@
+@path = http://localhost:8072/task/api/v1/task/reassign
+@accountId =8b62d449-4312-48ed-82ef-f9754ca4858b
+@taskId =3496472f-1c07-43c3-845f-361d4b933196
+
+@userToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMzE5OTZ9.64Q58-DtiQpOlmk9unwwsyyaSRqkFurxU0L4Q2PeIURcJJZVJEo18Axlloj1AwA2JT6AN6nvIIA4yY5xdwBpjg
+@adminToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTg2NDA4fQ.MjyMo9gQtrBvtTFQF6ydEoxR462S2cN5gZvfntG80UikOHzlhzIA3oKwaHhOlVXzpaF1vkoQgIw7LUOdV3lS0Q
+
+### PUT
+PUT {{path}}/{{taskId}}?newAccountId={{accountId}}
+Authorization: Bearer {{adminToken}}
