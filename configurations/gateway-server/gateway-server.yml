@@ -71,7 +71,7 @@ spring:
               predicates:
                 - Path=/auth/v3/**
               filters:
-                - RewritePath=/auth/v3/(?<path>.*), /task/v3/$\{path}
+                - RewritePath=/auth/v3/(?<path>.*), /auth/v3/$\{path}
 
 eureka:
   instance:
