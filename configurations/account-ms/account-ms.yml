@@ -51,6 +51,10 @@ logging:
   level:
     org.springframework.cloud.vault: DEBUG
 
+security:
+  jwt:
+    secret: ${SECRET_KEY}
+
 springdoc:
   swagger-ui:
     config-url: /account/v3/api-docs/swagger-config

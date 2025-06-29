@@ -54,3 +54,10 @@ security:
     secret: ${SECRET_KEY}
     accessDuration: ${ACCESS_DURATION}
     refreshDuration: ${REFRESH_DURATION}
+
+springdoc:
+  swagger-ui:
+    config-url: /auth/v3/api-docs/swagger-config
+    url: /auth/v3/api-docs
+  api-docs:
+    path: /auth/v3/api-docs
