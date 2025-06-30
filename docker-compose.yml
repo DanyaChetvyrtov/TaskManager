@@ -4,9 +4,8 @@ services:
     image: postgres:16-alpine
     container_name: postgres-zuzex-container
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
-      POSTGRES_DB: account_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       PGDATA: /data/postgres
@@ -14,10 +13,13 @@ services:
       - microservices-net
     volumes:
       - postgres-volume:/data/postgres
+      - ./db-initializer.sh:/usr/local/bin/db-initializer.sh
+#    entrypoint: /usr/local/bin/db-initializer.sh  # Переопределяем entrypoint
+#    command: postgres  # Оригинальная команда для PostgreSQL
     restart: unless-stopped
 
   vault:
-#    image: vault:1.13.3
+    #    image: vault:1.13.3
     image: hashicorp/vault:1.19
     container_name: vault-zuzex-container
     ports:
@@ -30,29 +32,9 @@ services:
     volumes:
       - vault-volume:/vault/file
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:latest
-    container_name: keycloak-zuzex-container
-    command: start-dev 
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_PROXY: edge
-      KC_HOSTNAME: localhost
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: root
-    ports:
-      - "8300:8080"
-    networks:
-      microservices-net:
-        aliases:
-          - "keycloak"
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
-    container_name: zookeeper
+    container_name: zookeeper-zuzex-container
     ports:
       - "2181:2181"
     environment:
@@ -63,7 +45,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
-    container_name: kafka
+    container_name: kafka-zuzex-container
     depends_on:
       - zookeeper
     ports:
@@ -109,7 +91,70 @@ services:
     depends_on:
       - config-server
 
+  gateway-server:
+    image: danilchet/zuzex-gateway-server-ms
+    container_name: gateway-server-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8072:8072"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+      #      - SPRING_PROFILES_ACTIVE=docker
+      - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+    depends_on:
+      - config-server
+
+
   # main services
+  auth-ms:
+    image: danilchet/zuzex-auth-ms
+    container_name: auth-ms-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8120:8120"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+      - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+      - "spring.kafka.bootstrap-servers= kafka:9092"
+    depends_on:
+      - config-server
+
+  account-ms:
+    image: danilchet/zuzex-account-ms
+    container_name: account-ms-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8100:8100"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+      - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+      - "spring.kafka.bootstrap-servers= kafka:9092"
+    depends_on:
+      - config-server
+
+  task-ms:
+    image: danilchet/zuzex-task-ms
+    container_name: task-ms-zuzex-container
+    networks:
+      - microservices-net
+    ports:
+      - "8110:8110"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+      - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+      - "spring.kafka.bootstrap-servers= kafka:9092"
+    depends_on:
+      - config-server
 
 networks:
   microservices-net:
