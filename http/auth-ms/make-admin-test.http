@@ -1,0 +1,12 @@
+@path = http://localhost:8120/api/v1/user
+
+# ID пользователя, которого хотим сделать ADMIN'ом
+@userId =edf491fe-e829-4212-9403-e34c8bee3bb4
+
+# Токен должен принадлежать пользователю с ролью ADMIN
+@token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTEyMjk2fQ.Z-nFsaOWU5V2my7uebG-b_MDtSHmSeWwluXinWeFQuwa2zTV4gRnfp4tosLxBCRAg-yZQkipoRyvxHWTwmxw3g
+
+### PUT make user ADMIN
+PUT {{path}}/{{userId}}
+Authorization: Bearer {{token}}
+

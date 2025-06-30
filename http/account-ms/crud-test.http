@@ -2,8 +2,8 @@
 # много тасков
 @accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
 
-@danilToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMTUyOTJ9.byUsnlVq8XmkZ6dgzw0zPoLjdnJIgefEDyHYuhbCKM9xAAWlAHqGMQhrtarAPh8aoX1kgLRNYWWeR3Px4ZlBmQ
-@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTE1MzM1fQ.7m7TsuhxPwbSqfaaFmOrtZdvAnfVUjeVmYhK2f_PBUhO4gyUFi_0oLJbJ8wMYjFKZc-me1fE1qsNUeCiNj1LCA
+@danilToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMzA2Nzd9.buWCOwZD4_jm1vTWxf0MSszEt9HM4cZt_rDZmdOZ5rYUK-NOsJEPEEyj2JHXf5r02QFEC8Mtitlf46TGz8q9aQ
+@adminToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMjE3NDY0fQ.sXPV4PonsqqSH5ALUFYXpSIEniHv4PNltBd_YaZz7EsdVGDXqpeKevrteCDVrNdjOrJB0iv-TOCbnvuXGqwGqg
 
 ### GET all accounts
 GET {{path}}
@@ -11,7 +11,7 @@ Authorization: Bearer {{adminToken}}
 
 ### GET by id
 GET {{path}}/{{accountId}}
-Authorization: Bearer {{danilToken}}
+Authorization: Bearer {{adminToken}}
 
 ### POST create new account
 POST {{path}}
@@ -19,8 +19,8 @@ Content-Type: application/json
 Authorization: Bearer {{danilToken}}
 
 {
-  "name": "!!! Test Danil !!!",
-  "surname": "!!! Test Danil !!!",
+  "name": "!!! Test Pasha !!!",
+  "surname": "!!! Test Pasha !!!",
   "age": 27
 }
 

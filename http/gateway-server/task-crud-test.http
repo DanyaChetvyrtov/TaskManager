@@ -1,18 +1,23 @@
 @path = http://localhost:8072/task/api/v1/task
-#@accountId = f3ed0ff6-faec-4b9e-860d-0903eccf28b3
-@accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
-@taskId = 8bdde637-773a-4968-be78-de2d671648b6
+
+@taskId =d2e64d3d-5c0b-4ec0-ab5c-19df891e3d65
+@accountId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
+
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQYXNoYTQuMTQuMjQtVVNFUiIsImlkIjoiZjYxODRkOGYtZmE0Mi00NWYwLWIwZmUtYTlkMTVmYWUzNDhiIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTc1MTI5OTQ0MX0.zBtpdl6DD27m9ddOp7EGosmubQ4NFUfmaa_B97uAhkbgiYr5R2U-GKQxq2ieVtA2Lk_Q5RcVbGIxLnTHFX2ufQ
 
 ### GET all tasks by account id
 GET {{path}}?accountId={{accountId}}
+Authorization: Bearer {{token}}
 
 ### GET by id
 GET {{path}}/{{taskId}}
+Authorization: Bearer {{token}}
 
-### POST create new account
+### POST create new task
 POST {{path}}
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {{token}}
 
 {
   "accountId":  "{{accountId}}",
@@ -21,17 +26,19 @@ Accept: application/json
   "completed": false
 }
 
-### PUT update account
+### PUT update task
 PUT {{path}}/{{taskId}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "taskId": "{{taskId}}",
   "accountId":  "{{accountId}}",
-  "title": "Test UPDATED",
-  "body": "Test UPDATED",
+  "title": "Test",
+  "body": "Test",
   "completed": true
 }
 
 ### DELETE by id
 DELETE {{path}}/{{taskId}}
+Authorization: Bearer {{token}}

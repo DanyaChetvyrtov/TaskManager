@@ -1,33 +1,30 @@
-@path = http://localhost:8120/api/v1
-@userId =701257c9-3ca4-4e94-89f3-baf59a617a90
-
-@danilToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbCIsImlkIjoiMWNiZmZlZjUtMzlkMy00YjgzLWI2ZjQtZTFlY2RjZDRhNDA1Iiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTc1MTExMjE0OX0.TKhlX7vqppXo5DLOrc5lCaRn7OWMMwB9KgrixWwkJXlrZmL1Xz02LBmKt-pygvWE40yvb-ODj_hOJcmhQSWbAw
-@adminToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTEyMjk2fQ.Z-nFsaOWU5V2my7uebG-b_MDtSHmSeWwluXinWeFQuwa2zTV4gRnfp4tosLxBCRAg-yZQkipoRyvxHWTwmxw3g
+@path = http://localhost:8120/api/v1/auth
+@userId =edf491fe-e829-4212-9403-e34c8bee3bb4
 
 ### POST register
-POST  {{path}}/auth/register
+POST  {{path}}/register
 Content-Type: application/json
 
 {
-    "username": "Danil5",
+    "username": "Ilysha",
     "password": "root",
     "passwordConfirmation": "root"
 }
 
 ### POST login
-POST  {{path}}/auth/login
+POST  {{path}}/login
 Content-Type: application/json
 
 {
-    "username": "admin1",
+    "username": "Ilysha",
     "password": "root"
 }
 
-### PUT make user ADMIN
-PUT {{path}}/user/{{userId}}
-Authorization: Bearer {{danilToken}}
+###
+@refreshToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJJbHlzaGEiLCJpZCI6IjUxNmVlNjYzLWE2NDQtNDllOC05YTU1LTNkMTJmZWJlMmJiMyIsImV4cCI6MTc1MTkxMTk3N30.n3tNDBXtiFsGLj9ecoe26QvLvLzrrOTjo5aa2QoKy_geRyvVRE5GhAIfppbXCqSb9RUgdKRXg4YzxnfSmy0NYg
 
 ### POST refresh
-POST {{path}}/auth/refresh
+POST {{path}}/refresh
 
-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjUwZTk0N2QyLTBiYTItNDI1Yi1iY2Y0LWNkOTIxMWEwYjU4YiIsImV4cCI6MTc1MTYxNjQwMn0.2yE4BROwHH8fsCN6pQMdNnTwrwR3E4S_fpfQtv3drcioIkQFhAsDllYLLYCdNBR268fjxKbXdnATskK_ko-ehQ
+{{refreshToken}}
+
