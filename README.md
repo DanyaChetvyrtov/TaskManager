@@ -14,18 +14,18 @@
 ### ⚙️ Стек проекта
 
 - **Backend**:
-    - <img src="docs/icons/java_logopng.png" width="16"> Java 21  
-    - <img src="docs/icons/spring_logo.png" width="16"> Spring 3.5.0 (Boot, Jpa, Security)
-    - <img src="docs/icons/spring_cloud_logo.png" width="16"> Spring Cloud (Eureka, Config, Gateway)  
+    - <img src="docs/icons/java_logo.png" width="16" alt="#"> Java 21  
+    - <img src="docs/icons/spring_logo.png" width="16" alt="#"> Spring 3.5.0 (Boot, Jpa, Security)
+    - <img src="docs/icons/spring_cloud_logo.png" width="16" alt="#"> Spring Cloud (Eureka, Config, Gateway)  
 
-- **Базы данных**:
-    - <img src="docs/icons/postgres_logo.svg" width="16"> PostgreSQL 16  
+- **База данных**:
+    - <img src="docs/icons/postgres_logo.svg" width="16" alt="#"> PostgreSQL 16  
 
 - **Инфраструктура**:
-    - <img src="docs/icons/docker_logo.png" width="16"> Docker  
-    - <img src="docs/icons/kafka_logo.png" width="16"> Apache Kafka 
-    - <img src="docs/icons/vault_logo.svg" width="16"> Vault 
-    - <img src="docs/icons/zipkin_logo.svg" width="16"> Zipkin 
+    - <img src="docs/icons/zipkin_logo.svg" width="16" alt="#"> Zipkin 
+    - <img src="docs/icons/kafka_logo.png" width="16" alt="#"> Apache Kafka 
+    - <img src="docs/icons/docker_logo.png" width="16" alt="#"> Docker  
+    - <img src="docs/icons/vault_logo.svg" width="16" alt="#"> Vault 
 
 ---
 
@@ -111,18 +111,6 @@ kafka на localhost:
 
 В директории `http` можно найти примеры взаимодействия с api. Обращение либо напрямую к каждому микросервису, либо
 через `gateway`.
-
-Также к каждому микросервису с бизнес-логикой подключен swagger. После успешного запуска приложения можно обращаться:
-
-* напрямую к микросервису <br>
-  ```curl
-    http://localhost:<ms-port>/swagger-ui/index.html
-  ```
-* через gateway <br>
-  microservice-name: auth, account, task. <br>
-  ```curl
-    http://localhost:<gateway-port>/<microservice-name>/swagger/index.html
-  ```
 
 ### Схема взаимодействия сервисов
 
@@ -248,4 +236,11 @@ kafka на localhost:
 * В файле `error-handling-test.http` можно найти примеры обработки ошибок невалидных запросов<br>
 * В файле `reassign-task-test.http` можно протестировать переназначение задачи
 
-------------------------------------------------------
+### Swagger
+
+Также к каждому микросервису с бизнес-логикой подключен _swagger_. После успешного запуска приложения можно обращаться:
+
+* напрямую к микросервису: `http://localhost:<ms-port>/swagger-ui/index.html`
+* через gateway: `http://localhost:<gateway-port>/<microservice-name>/swagger/index.html` <br>
+  microservice-name: auth, account, task. <br>
+  
