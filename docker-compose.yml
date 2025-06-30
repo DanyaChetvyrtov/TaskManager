@@ -19,7 +19,6 @@ services:
     restart: unless-stopped
 
   vault:
-    #    image: vault:1.13.3
     image: hashicorp/vault:1.19
     container_name: vault-zuzex-container
     ports:
@@ -30,7 +29,8 @@ services:
     networks:
       - microservices-net
     volumes:
-      - vault-volume:/vault/file
+      - vault-volume:/vault/data
+      - ./vault-initializer.sh:/usr/local/bin/vault-initializer.sh
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
@@ -53,8 +53,11 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
@@ -120,7 +123,7 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
-      - "spring.kafka.bootstrap-servers= kafka:9092"
+      - "spring.kafka.bootstrap-servers=kafka:9092"
     depends_on:
       - config-server
 
@@ -136,7 +139,7 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
-      - "spring.kafka.bootstrap-servers= kafka:9092"
+      - "spring.kafka.bootstrap-servers=kafka:9092"
     depends_on:
       - config-server
 
@@ -152,7 +155,7 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
-      - "spring.kafka.bootstrap-servers= kafka:9092"
+      - "spring.kafka.bootstrap-servers=kafka:9092"
     depends_on:
       - config-server
 
