@@ -1,19 +1,24 @@
 @path = http://localhost:8072/account/api/v1/account
-@accountId = b4010fe0-8b3b-4451-8f1d-487409596572
+
+@accountId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
+@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJJbHlzaGEiLCJpZCI6IjUxNmVlNjYzLWE2NDQtNDllOC05YTU1LTNkMTJmZWJlMmJiMyIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTEzMDM5Njl9.upE_VTyYK63pqZxtoM-9z7X1VZ-3pVY5cTBaAT-TKRBBTxoLWxIIEnDCIQePVR1-bi59QrRANFi-fxgAx3OJTg
 
 ### GET all accounts
 GET {{path}}
+Authorization: Bearer {{token}}
 
 ### GET by id
 GET {{path}}/{{accountId}}
+Authorization: Bearer {{token}}
 
 ### POST create new account
 POST {{path}}
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "Timur",
-  "surname": "Timur",
+  "name": "Danil",
+  "surname": "Semenov",
   "age": 25
 }
 
@@ -30,3 +35,4 @@ Content-Type: application/json
 
 ### DELETE by id
 DELETE {{path}}/{{accountId}}
+Authorization: Bearer {{token}}
