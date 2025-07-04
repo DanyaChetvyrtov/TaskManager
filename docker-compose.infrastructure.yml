@@ -28,6 +28,8 @@ services:
     volumes:
       - vault-volume:/vault/data
       - ./vault-initializer.sh:/usr/local/bin/vault-initializer.sh
+      - ./custom-vault-entrypoint.sh:/custom-vault-entrypoint.sh
+    entrypoint: /custom-vault-entrypoint.sh
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
