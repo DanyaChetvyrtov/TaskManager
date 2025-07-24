@@ -84,9 +84,11 @@ eureka:
 
 management:
   endpoint:
+    health:
+      enabled: true
     gateway:
       access: read_only
   endpoints:
     web:
       exposure:
-        include: gateway
+        include: gateway, health
