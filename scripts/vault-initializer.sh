@@ -14,6 +14,7 @@ DB_USERNAME_VALUE=postgres
 DB_PASSWORD_VALUE=root
 
 # Создаём секреты
+echo "Creating secrets..."
 vault kv put secret/kv/auth-ms \
   DB_USERNAME="$DB_USERNAME_VALUE" \
   DB_PASSWORD="$DB_PASSWORD_VALUE" \
@@ -32,7 +33,7 @@ vault kv put secret/kv/task-ms \
   SECRET_KEY="$SECRET_KEY_VALUE"
 
 # Выводим информацию о созданных секретах
-echo "Секреты успешно созданы:"
+echo "Secrets successfully created"
 vault kv list secret
 
 # Бесконечное ожидание чтобы контейнер не завершал работу

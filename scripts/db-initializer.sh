@@ -1,5 +1,10 @@
 #!/bin/bash
 
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+blue=$(tput setaf 4)
+reset=$(tput sgr0)
+
 set -e
 
 # Ждём, пока PostgreSQL запустится (более надёжная проверка)
@@ -21,9 +26,11 @@ fi
 # Создаём базы данных
 echo "PostgreSQL is ready. Creating databases..."
 
-psql -U "$POSTGRES_USER" -c "CREATE DATABASE account_db;" || echo "Database 'account_db' already exists"
-psql -U "$POSTGRES_USER" -c "CREATE DATABASE auth_user_db;" || echo "Database 'auth_user_db' already exists"
-psql -U "$POSTGRES_USER" -c "CREATE DATABASE task_db;" || echo "Database 'task_db' already exists"
+dbs_to_be_created=("account_db" "auth_user_db" "task_db")
+
+for cur_db in "${dbs_to_be_created[@]}"; do
+  psql -U "$POSTGRES_USER" -c "CREATE DATABASE ${cur_db};" || echo "${red}Database '${cur_db}' already exists${reset}"
+done
 
 # Запускаем PostgreSQL
 echo "Starting PostgreSQL server..."
