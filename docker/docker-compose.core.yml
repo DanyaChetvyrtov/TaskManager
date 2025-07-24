@@ -4,7 +4,7 @@ services:
     image: danilchet/zuzex-config-server-ms
     container_name: config-server-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8071:8071"
     healthcheck:
@@ -18,7 +18,7 @@ services:
     image: danilchet/zuzex-eureka-server-ms
     container_name: eureka-server-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8761:8761"
     environment:
@@ -38,7 +38,7 @@ services:
     image: danilchet/zuzex-gateway-server-ms
     container_name: gateway-server-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8072:8072"
     environment:
@@ -46,6 +46,12 @@ services:
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       #      - SPRING_PROFILES_ACTIVE=docker
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8072/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     depends_on:
       config-server:
         condition: service_healthy
@@ -53,5 +59,5 @@ services:
         condition: service_healthy
 
 networks:
-  taskmanager_microservices-net :
+  task-manager:
     external: true

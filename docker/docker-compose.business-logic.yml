@@ -4,7 +4,7 @@ services:
     image: danilchet/zuzex-auth-ms
     container_name: auth-ms-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8120:8120"
     environment:
@@ -17,7 +17,7 @@ services:
     image: danilchet/zuzex-account-ms
     container_name: account-ms-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8100:8100"
     environment:
@@ -30,7 +30,7 @@ services:
     image: danilchet/zuzex-task-ms
     container_name: task-ms-zuzex-container
     networks:
-      - taskmanager_microservices-net
+      - task-manager
     ports:
       - "8110:8110"
     environment:
@@ -40,5 +40,5 @@ services:
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
 
 networks:
-  taskmanager_microservices-net:
+  task-manager:
     external: true

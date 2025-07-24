@@ -9,10 +9,10 @@ services:
       POSTGRES_PASSWORD: root
       PGDATA: /data/postgres
     networks:
-      - microservices-net
+      - task-manager
     volumes:
       - postgres-volume:/data/postgres
-      - ./db-initializer.sh:/usr/local/bin/db-initializer.sh
+      - ../scripts/db-initializer.sh:/usr/local/bin/db-initializer.sh
     restart: unless-stopped
 
   vault:
@@ -24,11 +24,11 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: myroot
       VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
     networks:
-      - microservices-net
+      - task-manager
     volumes:
       - vault-volume:/vault/data
-      - ./vault-initializer.sh:/usr/local/bin/vault-initializer.sh
-      - ./custom-vault-entrypoint.sh:/custom-vault-entrypoint.sh
+      - ../scripts/vault-initializer.sh:/usr/local/bin/vault-initializer.sh
+      - ../scripts/custom-vault-entrypoint.sh:/custom-vault-entrypoint.sh
     entrypoint: /custom-vault-entrypoint.sh
 
   zookeeper:
@@ -40,7 +40,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - microservices-net
+      - task-manager
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
@@ -60,7 +60,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
     networks:
-      - microservices-net
+      - task-manager
 
   zipkin:
     container_name: zipkin-zuzex-container
@@ -68,11 +68,11 @@ services:
     ports:
       - "9411:9411"
     networks:
-      - microservices-net
+      - task-manager
 
 networks:
-  microservices-net:
-    driver: bridge
+  task-manager:
+    external: true
 volumes:
   postgres-volume:
   vault-volume:

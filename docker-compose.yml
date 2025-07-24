@@ -1,4 +1,0 @@
-includes:
-  - docker-compose.infrastructure.yml
-  - docker-compose.core.yml
-  - docker-compose.business-logic.yml
