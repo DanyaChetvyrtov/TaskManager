@@ -1,12 +1,6 @@
 spring:
   cloud:
-    vault:
-      uri: http://localhost:8200
-      token: myroot
-      kv:
-        enabled: true
-        backend: secret
-        default-context: "kv/auth-ms"
+
 
   datasource:
     url: jdbc:postgresql://localhost:5432/auth_user_db?currentSchema=auth_user_dev
