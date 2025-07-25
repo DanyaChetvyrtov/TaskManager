@@ -29,7 +29,6 @@ dependencies {
 
 	// cloud starters
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
-	implementation("org.springframework.cloud:spring-cloud-starter-vault-config")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
 	// kafka
