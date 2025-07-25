@@ -6,7 +6,7 @@ POST  {{path}}/register
 Content-Type: application/json
 
 {
-    "username": "Ilysha",
+    "username": "Danil14",
     "password": "root",
     "passwordConfirmation": "root"
 }
@@ -16,12 +16,14 @@ POST  {{path}}/login
 Content-Type: application/json
 
 {
-    "username": "Ilysha",
+    "username": "Danil14",
     "password": "root"
 }
 
-###
-@refreshToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJJbHlzaGEiLCJpZCI6IjUxNmVlNjYzLWE2NDQtNDllOC05YTU1LTNkMTJmZWJlMmJiMyIsImV4cCI6MTc1MTkxMTk3N30.n3tNDBXtiFsGLj9ecoe26QvLvLzrrOTjo5aa2QoKy_geRyvVRE5GhAIfppbXCqSb9RUgdKRXg4YzxnfSmy0NYg
+> {%
+    client.global.set("accessToken", response.body.accessToken)
+    client.global.set("refreshToken", response.body.refreshToken)
+%}
 
 ### POST refresh
 POST {{path}}/refresh

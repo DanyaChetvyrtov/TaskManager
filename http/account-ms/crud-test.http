@@ -1,41 +1,39 @@
 @path = http://localhost:8100/api/v1/account
 # много тасков
-@accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
+@accountId =5bc388a6-f95d-459d-b5b5-51b63e01c533
 
-@danilToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbDUiLCJpZCI6ImUyNWJlMzIwLTJlNWQtNDg2Ny05YTY1LWQ4YzQ5YmJlMTdlMiIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE3NTExMzA2Nzd9.buWCOwZD4_jm1vTWxf0MSszEt9HM4cZt_rDZmdOZ5rYUK-NOsJEPEEyj2JHXf5r02QFEC8Mtitlf46TGz8q9aQ
-@adminToken =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMjE3NDY0fQ.sXPV4PonsqqSH5ALUFYXpSIEniHv4PNltBd_YaZz7EsdVGDXqpeKevrteCDVrNdjOrJB0iv-TOCbnvuXGqwGqg
 
 ### GET all accounts
 GET {{path}}
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{accessToken}}
 
 ### GET by id
 GET {{path}}/{{accountId}}
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{accessToken}}
 
 ### POST create new account
 POST {{path}}
 Content-Type: application/json
-Authorization: Bearer {{danilToken}}
+Authorization: Bearer {{accessToken}}
 
 {
-  "name": "!!! Test Pasha !!!",
-  "surname": "!!! Test Pasha !!!",
+  "name": "Danil",
+  "surname": "Semenov",
   "age": 27
 }
 
 ### PUT update account
 PUT {{path}}/{{accountId}}
 Content-Type: application/json
-Authorization: Bearer {{danilToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "accountId": "{{accountId}}",
-  "name": "Pashetet UPDATED BY ADMIN",
-  "surname": "Petroshevich UPDATED BY ADMIN",
+  "name": "Иван UPDATED BY ADMIN",
+  "surname": "Semenov UPDATED BY ADMIN",
   "age": 24
 }
 
 ### DELETE by id
 DELETE {{path}}/{{accountId}}
-Authorization: Bearer {{danilToken}}
+Authorization: Bearer {{accessToken}}

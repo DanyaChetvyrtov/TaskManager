@@ -1,16 +1,15 @@
 @path = http://localhost:8100/api/v1/account
 
 # Нужно будет залогинить пользователя с ролью ADMIN и использовать его токен
-@token = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJEYW5pbCIsImlkIjoiMWNiZmZlZjUtMzlkMy00YjgzLWI2ZjQtZTFlY2RjZDRhNDA1Iiwicm9sZXMiOlsiUk9MRV9VU0VSIiwiUk9MRV9BRE1JTiJdLCJleHAiOjE3NTExMTIzNzB9.N7RAwfaPQqh8ZwBeiA1y4y1CAWay7E75CCsFlwAXXo4TWxA6BK5XXxTeQCutVUyWmCQxwQrJKVhSy3TitYArvw
 
 ### GET search by name or surname
 GET {{path}}/search?query=Da
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ### GET search by name or surname. Ignore case
 GET {{path}}/search?query=DA&ignoreCase=true
-Authorization: Bearer {{token}}`
+Authorization: Bearer {{accessToken}}
 
 ### GET search by name or surname. Ignore case + pagination
 GET {{path}}/search?query=DA&ignoreCase=true&size=5&page=1
-Authorization: Bearer {{token}}`
+Authorization: Bearer {{accessToken}}

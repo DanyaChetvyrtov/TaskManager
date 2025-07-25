@@ -1,36 +1,34 @@
 @path = http://localhost:8110/api/v1/task
-#@accountId = f3ed0ff6-faec-4b9e-860d-0903eccf28b3
-@accountId =7b9a1e5c-0412-4210-a720-4487c938cc0e
-#@accountId =e25be320-2e5d-4867-9a65-d8c49bbe17e2
-@taskId =0c1c6f7b-3940-4ecb-8881-dda70d6f799c
+@taskId =281a9288-7474-4a8c-938c-7d18de0cebad
 
-@token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbjEiLCJpZCI6IjViYzM4OGE2LWY5NWQtNDU5ZC1iNWI1LTUxYjYzZTAxYzUzMyIsInJvbGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQURNSU4iXSwiZXhwIjoxNzUxMTMxODgyfQ.jaa68Oq7hYxjjBHdRbkuy5OE3032fwxudSh3npXVjrVV5e80RZqu596O2Zk8557GS5A72DaqoChYH3fN4WZg7A
+@accountId =5fd8f1f5-232e-4b39-adde-a256245e6a96
+
 
 ### GET all tasks by account id
 GET {{path}}?accountId={{accountId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ### GET by id
 GET {{path}}/{{taskId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ### POST create new task
 POST {{path}}
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "accountId":  "{{accountId}}",
-  "title": "Test task for Pashtet 4222 NEW TASK",
-  "body": "Test task for Pashtet with noticeable description task 4222 NEW TASK",
+  "title": "Fix some bugs",
+  "body": "Couple of bugs haven't been solved yet. Have to cope with them",
   "completed": false
 }
 
 ### PUT update task
 PUT {{path}}/{{taskId}}
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "taskId": "{{taskId}}",
@@ -42,4 +40,4 @@ Authorization: Bearer {{token}}
 
 ### DELETE by id
 DELETE {{path}}/{{taskId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}

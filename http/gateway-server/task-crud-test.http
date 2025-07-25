@@ -7,17 +7,17 @@
 
 ### GET all tasks by account id
 GET {{path}}?accountId={{accountId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ### GET by id
 GET {{path}}/{{taskId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 ### POST create new task
 POST {{path}}
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "accountId":  "{{accountId}}",
@@ -29,7 +29,7 @@ Authorization: Bearer {{token}}
 ### PUT update task
 PUT {{path}}/{{taskId}}
 Content-Type: application/json
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
 
 {
   "taskId": "{{taskId}}",
@@ -41,4 +41,4 @@ Authorization: Bearer {{token}}
 
 ### DELETE by id
 DELETE {{path}}/{{taskId}}
-Authorization: Bearer {{token}}
+Authorization: Bearer {{accessToken}}
