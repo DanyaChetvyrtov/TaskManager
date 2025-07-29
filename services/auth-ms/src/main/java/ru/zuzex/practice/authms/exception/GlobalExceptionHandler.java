@@ -1,5 +1,7 @@
 package ru.zuzex.practice.authms.exception;
 
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.io.DecodingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             HttpMessageNotReadableException.class,
             IllegalArgumentException.class,
-            PasswordsDoNotMatchException.class
+            PasswordsDoNotMatchException.class,
+            DecodingException.class,
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionResponse> handleBadRequestException(
@@ -59,6 +62,27 @@ public class GlobalExceptionHandler {
                 .message(e.getMessage())
                 .status(400)
                 .error("Bad request")
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(exceptionResponse);
+    }
+
+    @ExceptionHandler({
+            SignatureException.class
+    })
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedException(
+            RuntimeException e,
+            HttpServletRequest request
+    ) {
+        var exceptionResponse = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .status(401)
+                .error("Unauthorized")
                 .path(request.getRequestURI())
                 .timestamp(LocalDateTime.now())
                 .build();
