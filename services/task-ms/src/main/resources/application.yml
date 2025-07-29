@@ -7,3 +7,6 @@ spring:
       fail-fast: true
   config:
     import: "configserver:"
+
+
+# changes for test CI
