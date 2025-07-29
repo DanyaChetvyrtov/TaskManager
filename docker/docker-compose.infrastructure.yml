@@ -59,6 +59,27 @@ services:
     networks:
       - task-manager
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus-container
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - microservices-net
+
+  grafana:
+    image: "grafana/grafana:latest"
+    container_name: grafana-container
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=root
+    networks:
+      - microservices-net
+
 networks:
   task-manager:
     external: true

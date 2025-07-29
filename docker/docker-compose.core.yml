@@ -3,6 +3,8 @@ services:
   config-server:
     image: danilchet/zuzex-config-server-ms
     container_name: config-server-zuzex-container
+    environment:
+      - "spring.cloud.config.server.vault.host=vault"
     networks:
       - task-manager
     ports:
