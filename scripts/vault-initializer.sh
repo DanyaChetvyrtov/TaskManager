@@ -15,19 +15,19 @@ DB_PASSWORD_VALUE=root
 
 # Создаём секреты
 echo "Creating secrets..."
-vault kv put secret/kv/auth-ms \
+vault kv put secret/auth-ms \
   DB_USERNAME="$DB_USERNAME_VALUE" \
   DB_PASSWORD="$DB_PASSWORD_VALUE" \
   SECRET_KEY="$SECRET_KEY_VALUE" \
   ACCESS_DURATION=15 \
   REFRESH_DURATION=7
 
-vault kv put secret/kv/account-ms \
+vault kv put secret/account-ms \
   DB_USERNAME="$DB_USERNAME_VALUE" \
   DB_PASSWORD="$DB_PASSWORD_VALUE" \
   SECRET_KEY="$SECRET_KEY_VALUE"
 
-vault kv put secret/kv/task-ms \
+vault kv put secret/task-ms \
   DB_USERNAME="$DB_USERNAME_VALUE" \
   DB_PASSWORD="$DB_PASSWORD_VALUE" \
   SECRET_KEY="$SECRET_KEY_VALUE"
