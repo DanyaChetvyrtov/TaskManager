@@ -33,17 +33,18 @@ jobs:
         id: filter
         run: |
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
-
-          SERVICES=$(echo "$CHANGED_FILES" | grep -o 'services/[^/]*' | cut -d'/' -f2 | sort | uniq | tr '\n' ' ')
-
-          echo "services=$SERVICES" >> $GITHUB_OUTPUT
+          
+          SERVICES=$(echo "$CHANGED_FILES" | grep -o 'services/[^/]*' | cut -d'/' -f2 | sort | uniq | jq -R -s -c 'split("\n") | map(select(. != ""))')
+          
+          echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+          echo "Detected changed services: ${SERVICES}"
           
   build-and-test:
     needs: detect-changes
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ${{ needs.detect-changes.outputs.services }}
+        service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -67,7 +68,6 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             services/${{ matrix.service }}/build
-          # Упрощаем ключ кэша
           key: ${{ runner.os }}-gradle-${{ matrix.service }}-${{ hashFiles('services/${{ matrix.service }}/build.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-${{ matrix.service }}-
@@ -80,6 +80,7 @@ jobs:
             chmod +x gradlew
           else
             echo "::warning::gradlew not found in ${{ matrix.service }}"
+            exit 1
           fi
 
       - name: Run tests and build
