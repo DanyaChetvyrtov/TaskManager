@@ -9,4 +9,4 @@ spring:
     import: "configserver:"
 
 
-
+# simple test for CI. Docker

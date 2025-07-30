@@ -94,6 +94,8 @@ jobs:
       matrix:
         service: ${{ fromJSON(needs.detect-changes.outputs.services) }}
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/docker-build-and-push
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
