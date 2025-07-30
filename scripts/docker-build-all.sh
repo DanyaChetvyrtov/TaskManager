@@ -31,7 +31,7 @@ for cur_ms in "${core_ms[@]}"; do
   build_service "${cur_ms}-server" "danilchet/zuzex-${cur_ms}-server-ms"
 done
 
-business_ms=("auth" "account" "task")
+business_ms=("auth" "profile" "task")
 for cur_ms in "${business_ms[@]}"; do
   build_service "${cur_ms}-ms" "danilchet/zuzex-${cur_ms}-ms"
 done
