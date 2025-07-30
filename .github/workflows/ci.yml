@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.filter.outputs.services }}
+      has_services_changes: ${{ steps.filter.outputs.has_services_changes }}
     steps:
       - uses: actions/checkout@v4
         with:

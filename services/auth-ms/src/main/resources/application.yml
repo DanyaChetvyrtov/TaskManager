@@ -9,4 +9,3 @@ spring:
     import: "configserver:"
 
 
-# test
