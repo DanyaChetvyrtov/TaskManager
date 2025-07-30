@@ -61,24 +61,39 @@ services:
 
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus-container
+    container_name: prometheus-zuzex-container
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./dependencies/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
-      - microservices-net
+      - task-manager
 
   grafana:
     image: "grafana/grafana:latest"
-    container_name: grafana-container
+    container_name: grafana-zuzex-container
     ports:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=root
     networks:
-      - microservices-net
+      - task-manager
+
+  minio:
+    image: minio/minio
+    container_name: minio-zuzex-container
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=root1234
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-volume:/data
+    networks:
+      - task-manager
 
 networks:
   task-manager:
@@ -86,3 +101,4 @@ networks:
 volumes:
   postgres-volume:
   vault-volume:
+  minio-volume:

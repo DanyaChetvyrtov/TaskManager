@@ -8,19 +8,21 @@ services:
     ports:
       - "8120:8120"
     environment:
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=*
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
 
-  account-ms:
-    image: danilchet/zuzex-account-ms
-    container_name: account-ms-zuzex-container
+  profile-ms:
+    image: danilchet/zuzex-profile-ms
+    container_name: profile-ms-zuzex-container
     networks:
       - task-manager
     ports:
       - "8100:8100"
     environment:
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=*
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
@@ -34,6 +36,7 @@ services:
     ports:
       - "8110:8110"
     environment:
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=*
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
