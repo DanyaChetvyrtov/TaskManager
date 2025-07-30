@@ -34,13 +34,22 @@ jobs:
         run: |
           CHANGED_FILES="${{ steps.changed-files.outputs.all_changed_files }}"
           
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "has_services_changes=false" >> $GITHUB_OUTPUT
+            echo "services=[]" >> $GITHUB_OUTPUT
+            echo "No changes in services detected"
+            exit 0
+          fi
+          
           SERVICES=$(echo "$CHANGED_FILES" | grep -o 'services/[^/]*' | cut -d'/' -f2 | sort | uniq | jq -R -s -c 'split("\n") | map(select(. != ""))')
           
+          echo "has_services_changes=true" >> $GITHUB_OUTPUT
           echo "services=${SERVICES}" >> $GITHUB_OUTPUT
           echo "Detected changed services: ${SERVICES}"
           
   build-and-test:
     needs: detect-changes
+    if: needs.detect-changes.outputs.has_services_changes == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -89,6 +98,7 @@ jobs:
 
   build-and-push-docker:
     needs: [ detect-changes, build-and-test ]
+    if: needs.detect-changes.outputs.has_services_changes == 'true'
     runs-on: ubuntu-latest
     strategy:
       matrix:
