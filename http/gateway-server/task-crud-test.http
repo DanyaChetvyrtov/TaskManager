@@ -1,12 +1,12 @@
 @path = http://localhost:8072/task/api/v1/task
 
 @taskId =d2e64d3d-5c0b-4ec0-ab5c-19df891e3d65
-@accountId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
+@profileId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
 
 @token =eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJQYXNoYTQuMTQuMjQtVVNFUiIsImlkIjoiZjYxODRkOGYtZmE0Mi00NWYwLWIwZmUtYTlkMTVmYWUzNDhiIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImV4cCI6MTc1MTI5OTQ0MX0.zBtpdl6DD27m9ddOp7EGosmubQ4NFUfmaa_B97uAhkbgiYr5R2U-GKQxq2ieVtA2Lk_Q5RcVbGIxLnTHFX2ufQ
 
-### GET all tasks by account id
-GET {{path}}?accountId={{accountId}}
+### GET all tasks by profile id
+GET {{path}}?profileId={{profileId}}
 Authorization: Bearer {{accessToken}}
 
 ### GET by id
@@ -20,7 +20,7 @@ Accept: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Test",
   "body": "Test",
   "completed": false
@@ -33,7 +33,7 @@ Authorization: Bearer {{accessToken}}
 
 {
   "taskId": "{{taskId}}",
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Test",
   "body": "Test",
   "completed": true

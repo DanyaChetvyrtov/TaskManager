@@ -1,4 +1,4 @@
-@path = http://localhost:8100/api/v1/account
+@path = http://localhost:8100/api/v1/profile
 
 # Нужно будет залогинить пользователя с ролью ADMIN и использовать его токен
 

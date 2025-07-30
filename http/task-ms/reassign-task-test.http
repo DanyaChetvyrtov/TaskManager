@@ -1,8 +1,8 @@
 @path = http://localhost:8110/api/v1/task/reassign
 
-@accountId =5bc388a6-f95d-459d-b5b5-51b63e01c533
+@profileId =5bc388a6-f95d-459d-b5b5-51b63e01c533
 @taskId =ae6feda6-2e05-43a3-8dd3-b25a6ae02d7f
 
 ### PUT
-PUT {{path}}/{{taskId}}?newAccountId={{accountId}}
+PUT {{path}}/{{taskId}}?newAccountId={{profileId}}
 Authorization: Bearer {{accessToken}}

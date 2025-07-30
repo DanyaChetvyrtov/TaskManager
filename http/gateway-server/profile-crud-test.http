@@ -1,16 +1,16 @@
-@path = http://localhost:8072/account/api/v1/account
+@path = http://localhost:8072/profile/api/v1/profile
 
-@accountId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
+@profileId =f6184d8f-fa42-45f0-b0fe-a9d15fae348b
 
-### GET all accounts
+### GET all profiles
 GET {{path}}
 Authorization: Bearer {{accessToken}}
 
 ### GET by id
-GET {{path}}/{{accountId}}
+GET {{path}}/{{profileId}}
 Authorization: Bearer {{accessToken}}
 
-### POST create new account
+### POST create new profile
 POST {{path}}
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -21,17 +21,17 @@ Authorization: Bearer {{accessToken}}
   "age": 25
 }
 
-### PUT update account
-PUT {{path}}/{{accountId}}
+### PUT update profile
+PUT {{path}}/{{profileId}}
 Content-Type: application/json
 
 {
-  "accountId": "b4010fe0-8b3b-4451-8f1d-487409596572",
+  "profileId": "b4010fe0-8b3b-4451-8f1d-487409596572",
   "name": "Sanya",
   "surname": "Timur",
   "age": 22
 }
 
 ### DELETE by id
-DELETE {{path}}/{{accountId}}
+DELETE {{path}}/{{profileId}}
 Authorization: Bearer {{accessToken}}

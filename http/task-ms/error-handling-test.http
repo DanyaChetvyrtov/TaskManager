@@ -1,6 +1,6 @@
 @path = http://localhost:8110/api/v1/task
 @taskId = 1664ca32-5d7d-43b9-adf8-455ba9de1318
-@accountId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
+@profileId = 4e4d7031-9ede-4968-b1dd-90b8d95d2a38
 
 
 ### GET by invalid UUID
@@ -14,7 +14,7 @@ POST {{path}}
 Content-Type: application/json
 
 {
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "",
   "completed": false
 }
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
   "taskId": "{{taskId}}",
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Test",
   "body": "Test",
   "completed": false
@@ -36,18 +36,18 @@ PUT {{path}}/{{taskId}}
 Content-Type: application/json
 
 {
-  "accountId": "{{accountId}}",
+  "profileId": "{{profileId}}",
   "title": "d",
   "body": ""
 }
 
-### PUT path accountId mismatch with entity taskId
+### PUT path profileId mismatch with entity taskId
 PUT {{path}}/{{taskId}}
 Content-Type: application/json
 
 {
   "taskId": "1664ca32-5d7d-43b9-adf8-455ba9de1319",
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Test",
   "body": "Test",
   "completed": false

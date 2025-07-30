@@ -1,11 +1,11 @@
 @path = http://localhost:8110/api/v1/task
 @taskId =281a9288-7474-4a8c-938c-7d18de0cebad
 
-@accountId =5fd8f1f5-232e-4b39-adde-a256245e6a96
+@profileId =5fd8f1f5-232e-4b39-adde-a256245e6a96
 
 
-### GET all tasks by account id
-GET {{path}}?accountId={{accountId}}
+### GET all tasks by profile id
+GET {{path}}?profileId={{profileId}}
 Authorization: Bearer {{accessToken}}
 
 ### GET by id
@@ -19,7 +19,7 @@ Accept: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Fix some bugs",
   "body": "Couple of bugs haven't been solved yet. Have to cope with them",
   "completed": false
@@ -32,7 +32,7 @@ Authorization: Bearer {{accessToken}}
 
 {
   "taskId": "{{taskId}}",
-  "accountId":  "{{accountId}}",
+  "profileId":  "{{profileId}}",
   "title": "Test UPDATED",
   "body": "Test UPDATED",
   "completed": true

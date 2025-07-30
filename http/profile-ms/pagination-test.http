@@ -1,4 +1,4 @@
-@path = http://localhost:8100/api/v1/account
+@path = http://localhost:8100/api/v1/profile
 
 ### GET all accounts without params
 GET {{path}}

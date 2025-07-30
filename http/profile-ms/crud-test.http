@@ -1,6 +1,6 @@
-@path = http://localhost:8100/api/v1/account
+@path = http://localhost:8100/api/v1/profile
 # много тасков
-@accountId =5bc388a6-f95d-459d-b5b5-51b63e01c533
+@accountId =68b1e612-733a-400e-8ef3-20f51c7d1cf7
 
 
 ### GET all accounts
@@ -11,7 +11,7 @@ Authorization: Bearer {{accessToken}}
 GET {{path}}/{{accountId}}
 Authorization: Bearer {{accessToken}}
 
-### POST create new account
+### POST create new profile
 POST {{path}}
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
@@ -22,7 +22,7 @@ Authorization: Bearer {{accessToken}}
   "age": 27
 }
 
-### PUT update account
+### PUT update profile
 PUT {{path}}/{{accountId}}
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}

@@ -2,21 +2,21 @@
 @userId =edf491fe-e829-4212-9403-e34c8bee3bb4
 
 ### POST register
-POST  {{path}}/register
+POST {{path}}/register
 Content-Type: application/json
 
 {
-    "username": "Danil14",
+    "username": "Danil17",
     "password": "root",
     "passwordConfirmation": "root"
 }
 
 ### POST login
-POST  {{path}}/login
+POST {{path}}/login
 Content-Type: application/json
 
 {
-    "username": "Danil14",
+    "username": "Danil17",
     "password": "root"
 }
 
