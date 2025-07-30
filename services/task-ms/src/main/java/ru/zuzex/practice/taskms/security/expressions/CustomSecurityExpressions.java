@@ -22,15 +22,15 @@ public class CustomSecurityExpressions {
         return hasAnyRole(user.getRoles(), Role.ROLE_ADMIN) || isOwner(taskId, user);
     }
 
-    public boolean hasPermissionTaskS_(UUID accountId) {
+    public boolean hasPermissionTaskS_(UUID profileId) {
         var user = getAuthenticatedUser();
 
-        return hasAnyRole(user.getRoles(), Role.ROLE_ADMIN) || accountId.equals(user.getId());
+        return hasAnyRole(user.getRoles(), Role.ROLE_ADMIN) || profileId.equals(user.getId());
     }
 
     private boolean isOwner(UUID taskId, JwtUser user) {
         var requestedTask = taskService.getTask(taskId);
-        var ownerId = requestedTask.getAccountId();
+        var ownerId = requestedTask.getProfileId();
 
         return ownerId.equals(user.getId());
     }
@@ -40,7 +40,7 @@ public class CustomSecurityExpressions {
         var userId = authenticatedUser.getId();
         var requestedTask = taskService.getTask(taskId);
 
-        return userId.equals(requestedTask.getAccountId());
+        return userId.equals(requestedTask.getProfileId());
     }
 
     private JwtUser getAuthenticatedUser() {
@@ -55,9 +55,9 @@ public class CustomSecurityExpressions {
         return false;
     }
 
-    public boolean canCreate(UUID accountId) {
+    public boolean canCreate(UUID profileId) {
         var user = getAuthenticatedUser();
 
-        return hasAnyRole(user.getRoles(), Role.ROLE_ADMIN) || accountId.equals(user.getId());
+        return hasAnyRole(user.getRoles(), Role.ROLE_ADMIN) || profileId.equals(user.getId());
     }
 }

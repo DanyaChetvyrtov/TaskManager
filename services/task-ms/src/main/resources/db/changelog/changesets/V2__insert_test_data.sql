@@ -1,4 +1,4 @@
-INSERT INTO task(account_id, title, body, completed)
+INSERT INTO task(profile_id, title, body, completed)
 VALUES ('5bc388a6-f95d-459d-b5b5-51b63e01c533', 'VERY COOL TITLE 1', 'EVEN MORE COOL DESCRIPTION', true),
        ('8b62d449-4312-48ed-82ef-f9754ca4858b', 'VERY COOL TITLE 2.1', 'EVEN MORE COOL DESCRIPTION', true),
        ('8b62d449-4312-48ed-82ef-f9754ca4858b', 'VERY COOL TITLE 2.2', 'EVEN MORE COOL DESCRIPTION', true),

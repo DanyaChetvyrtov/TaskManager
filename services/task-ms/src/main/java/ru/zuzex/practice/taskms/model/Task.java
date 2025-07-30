@@ -20,8 +20,8 @@ public class Task {
     @Column(name = "id", nullable = false)
     private UUID taskId;
 
-    @Column(name = "account_id", nullable = false)
-    private UUID accountId;
+    @Column(name = "profile_id", nullable = false)
+    private UUID profileId;
     @Column(name = "title", nullable = false)
     private String title;
     @Column(name = "body", nullable = false)

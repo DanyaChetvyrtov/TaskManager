@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.zuzex.practice.taskms.dto.response.ExceptionResponse;
-import ru.zuzex.practice.taskms.exception.exception.LocalAccountNotFoundException;
+import ru.zuzex.practice.taskms.exception.exception.LocalProfileNotFoundException;
 import ru.zuzex.practice.taskms.exception.exception.TaskAlreadyAssignedException;
 import ru.zuzex.practice.taskms.exception.exception.TaskNotFoundException;
 
@@ -70,10 +70,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            TaskNotFoundException.class, LocalAccountNotFoundException.class
+            TaskNotFoundException.class, LocalProfileNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(
+    public ResponseEntity<ExceptionResponse> handleProfileNotFoundException(
             Exception e,
             HttpServletRequest request
     ) {

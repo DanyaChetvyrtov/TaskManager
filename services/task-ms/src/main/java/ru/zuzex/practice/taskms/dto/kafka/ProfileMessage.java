@@ -10,9 +10,9 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountMessage {
+public class ProfileMessage {
     private UUID id;
     private String eventType;
-    private UUID accountId;
+    private UUID profileId;
     private LocalDateTime timestamp;
 }

@@ -1,4 +1,4 @@
-INSERT INTO task_db.task_dev.local_account(id)
+INSERT INTO task_db.task_dev.local_profile(id)
 VALUES ('5bc388a6-f95d-459d-b5b5-51b63e01c533'),
        ('8b62d449-4312-48ed-82ef-f9754ca4858b'),
        ('21fabe35-28cc-41f5-be18-d08bc97cb584'),

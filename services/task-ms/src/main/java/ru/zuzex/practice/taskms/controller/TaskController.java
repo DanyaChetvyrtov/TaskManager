@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "Account API", description = "Task endpoints")
+@Tag(name = "Profile API", description = "Task endpoints")
 @RestController
 @RequestMapping("api/v1/task")
 @RequiredArgsConstructor
@@ -29,16 +29,16 @@ public class TaskController {
 
 
     @GetMapping
-    @PreAuthorize("@customSecurityExpression.hasPermissionTaskS_(#accountId)")
+    @PreAuthorize("@customSecurityExpression.hasPermissionTaskS_(#profileId)")
     @Operation(
-            summary = "Receive all account tasks by its ID",
+            summary = "Receive all profile tasks by its ID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully retrieved tasks"),
                     @ApiResponse(responseCode = "404", description = "Tasks not found")
             }
     )
-    public ResponseEntity<List<TaskDto>> getTasksByAccountId(@RequestParam(name = "accountId") UUID accountId) {
-        var tasks = taskService.getAllByAccountId(accountId)
+    public ResponseEntity<List<TaskDto>> getTasksByProfileId(@RequestParam(name = "profileId") UUID profileId) {
+        var tasks = taskService.getAllByProfileId(profileId)
                 .stream().map(taskMapper::toDto).toList();
 
         return ResponseEntity.ok().body(tasks);
@@ -60,7 +60,7 @@ public class TaskController {
     }
 
     @PostMapping
-    @PreAuthorize("@customSecurityExpression.canCreate(#taskDto.accountId)")
+    @PreAuthorize("@customSecurityExpression.canCreate(#taskDto.profileId)")
     @Operation(
             summary = "Create new Task",
             responses = {
@@ -115,14 +115,14 @@ public class TaskController {
     @PutMapping("/reassign/{taskId}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(
-            summary = "Reassign existed Task to other Account",
+            summary = "Reassign existed Task to other Profile",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Task successfully reassigned")
             }
     )
     public ResponseEntity<HttpStatus> reassignTask(
-            @PathVariable UUID taskId, @RequestParam("newAccountId") UUID newAccountId) {
-        taskService.reassign(taskId, newAccountId);
+            @PathVariable UUID taskId, @RequestParam("newProfileId") UUID newProfileId) {
+        taskService.reassign(taskId, newProfileId);
         return ResponseEntity.noContent().build();
     }
 }

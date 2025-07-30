@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "local_account", schema = "task_dev")
+@Table(name = "local_profile", schema = "task_dev")
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocalAccount {
+public class LocalProfile {
     @Id
     @Column(name = "id", nullable = false)
-    private UUID accountId;
+    private UUID profileId;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;

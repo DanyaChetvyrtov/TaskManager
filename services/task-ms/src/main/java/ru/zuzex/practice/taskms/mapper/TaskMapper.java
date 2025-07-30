@@ -6,7 +6,7 @@ import ru.zuzex.practice.taskms.model.Task;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
-    TaskDto toDto(Task account);
+    TaskDto toDto(Task profile);
 
-    Task toEntity(TaskDto accountDto);
+    Task toEntity(TaskDto profileDto);
 }

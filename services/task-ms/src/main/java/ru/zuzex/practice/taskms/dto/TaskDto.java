@@ -21,9 +21,9 @@ public class TaskDto {
     @NotNull(message = "TaskId must be not null", groups = OnUpdate.class)
     private UUID taskId;
 
-    @Schema(description = "Account owner ID", example = "63ba3c9a-4c86-4a24-8e8a-5601edc55ef4", type = "UUID")
-    @NotNull(message = "AccountId must be not null", groups = {OnCreate.class, OnUpdate.class})
-    private UUID accountId;
+    @Schema(description = "Profile owner ID", example = "63ba3c9a-4c86-4a24-8e8a-5601edc55ef4", type = "UUID")
+    @NotNull(message = "ProfileId must be not null", groups = {OnCreate.class, OnUpdate.class})
+    private UUID profileId;
 
     @Schema(description = "Task title", example = "Add swagger to project", type = "String")
     @Length(min = 2, max = 100, message = "Title should be in range between 2 and 100 characters", groups = {OnCreate.class, OnUpdate.class})
