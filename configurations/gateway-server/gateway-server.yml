@@ -8,26 +8,26 @@ spring:
         webflux:
           routes:
             # Account paths
-            - id: account-service-api
-              uri: lb://account-ms
+            - id: profile-service-api
+              uri: lb://profile-ms
               predicates:
-                - Path=/account/api/v1/**
+                - Path=/profile/api/v1/**
               filters:
-                - RewritePath=/account/api/v1/(?<path>.*), /api/v1/$\{path}
+                - RewritePath=/profile/api/v1/(?<path>.*), /api/v1/$\{path}
 
-            - id: account-swagger-ui
-              uri: lb://account-ms
+            - id: profile-swagger-ui
+              uri: lb://profile-ms
               predicates:
-                - Path=/account/swagger/**
+                - Path=/profile/swagger/**
               filters:
-                - RewritePath=/account/swagger/(?<path>.*), /swagger-ui/$\{path}
+                - RewritePath=/profile/swagger/(?<path>.*), /swagger-ui/$\{path}
 
-            - id: account-api-docs
-              uri: lb://account-ms
+            - id: profile-api-docs
+              uri: lb://profile-ms
               predicates:
-                - Path=/account/v3/**
+                - Path=/profile/v3/**
               filters:
-                - RewritePath=/account/v3/(?<path>.*), /account/v3/$\{path}
+                - RewritePath=/profile/v3/(?<path>.*), /profile/v3/$\{path}
 
             # Task paths
             - id: task-service-api
