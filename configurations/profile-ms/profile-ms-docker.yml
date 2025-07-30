@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/account_db?currentSchema=account_dev
+    url: jdbc:postgresql://postgres:5432/profile_db?currentSchema=profile_dev
 
   jpa:
     show-sql: false
