@@ -34,12 +34,12 @@ runs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
-        context: ./services/${{ inputs.services }}
-        file: ./services/${{ inputs.services }}/Dockerfile
+        context: ./services/${{ inputs.files }}
+        file: ./services/${{ inputs.files }}/Dockerfile
         push: ${{ github.ref == 'refs/heads/main' }}
         tags: |
-          ${{ inputs.username }}/${{ inputs.services }}:${{ github.sha }}
-          ${{ inputs.username }}/${{ inputs.services }}:latest
+          ${{ inputs.username }}/${{ inputs.files }}:${{ github.sha }}
+          ${{ inputs.username }}/${{ inputs.files }}:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
         build-args: |
