@@ -38,6 +38,9 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
+	// Minio
+	implementation("io.minio:minio:8.5.17")
+
 	// kafka
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("com.fasterxml.jackson.core:jackson-databind")

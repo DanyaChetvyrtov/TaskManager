@@ -4,12 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.zuzex.practice.profilems.client.TaskFeignClient;
 import ru.zuzex.practice.profilems.dto.ProfileDto;
 import ru.zuzex.practice.profilems.dto.request.SearchParameters;
@@ -17,6 +20,7 @@ import ru.zuzex.practice.profilems.dto.response.PageResponse;
 import ru.zuzex.practice.profilems.mapper.ProfileMapper;
 import ru.zuzex.practice.profilems.model.Profile;
 import ru.zuzex.practice.profilems.model.Task;
+import ru.zuzex.practice.profilems.service.PhotoStorageService;
 import ru.zuzex.practice.profilems.service.ProfileService;
 import ru.zuzex.practice.profilems.validation.OnCreate;
 import ru.zuzex.practice.profilems.validation.OnUpdate;
@@ -27,11 +31,13 @@ import java.util.UUID;
 import java.util.function.Function;
 
 @Tag(name = "Profile API", description = "Profile endpoints")
+@Slf4j
 @RestController
 @RequestMapping("api/v1/profile")
 @RequiredArgsConstructor
 public class ProfileController {
     private final ProfileService profileService;
+    private final PhotoStorageService photoStorageService;
     private final ProfileMapper profileMapper;
     private final TaskFeignClient taskFeignClient;
 
@@ -157,6 +163,30 @@ public class ProfileController {
     public ResponseEntity<HttpStatus> deleteProfile(@PathVariable UUID profileId) {
         profileService.delete(profileId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/photo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("@customSecurityExpression.isOwner(#profileId)")
+    public void uploadPhoto(
+            @RequestParam UUID profileId,
+            @RequestParam("photo") MultipartFile photo
+    ) throws Exception {
+        log.info("Received photo upload: profileId={}, photoSize={}", profileId, photo.getSize());
+        photoStorageService.uploadPhoto(profileId.toString(), photo);
+    }
+
+    @GetMapping(value = "/photo/{profileId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @PreAuthorize("@customSecurityExpression.hasPermission(#profileId)")
+    public byte[] getPhoto(@PathVariable UUID profileId) throws Exception {
+        log.info("Photo for user with ID: profileId={}", profileId);
+        return photoStorageService.downloadPhoto(profileId.toString());
+    }
+
+    @DeleteMapping(value = "/photo")
+    @PreAuthorize("@customSecurityExpression.hasPermission(#profileId)")
+    public void deletePhoto(@RequestParam UUID profileId) throws Exception {
+        log.info("Deleting photo ID: profileId={}", profileId);
+        photoStorageService.deletePhoto(profileId.toString());
     }
 
     private <T, R> PageResponse<R> toPageResponse(Page<T> pageEntity, Function<T, R> mapper) {
