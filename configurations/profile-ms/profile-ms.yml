@@ -21,6 +21,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -47,3 +52,9 @@ springdoc:
     url: /profile/v3/api-docs
   api-docs:
     path: /profile/v3/api-docs
+
+minio:
+  endpoint: ${MINIO_URL}
+  access-key: ${MINIO_ACCESS_KEY}
+  secret-key: ${MINIO_SECRET_KEY}
+  bucket: ${MINIO_BUCKET}
