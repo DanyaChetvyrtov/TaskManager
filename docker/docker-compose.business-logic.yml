@@ -1,7 +1,7 @@
 services:
   # main services
   auth-ms:
-    image: danilchet/zuzex-auth-ms
+    image: danilchet/auth-ms
     container_name: auth-ms-zuzex-container
     networks:
       - task-manager
@@ -15,7 +15,7 @@ services:
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
 
   profile-ms:
-    image: danilchet/zuzex-profile-ms
+    image: danilchet/profile-ms
     container_name: profile-ms-zuzex-container
     networks:
       - task-manager
@@ -27,9 +27,10 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
       - "eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/"
+      - "minio.endpoint=http://minio:9000"
 
   task-ms:
-    image: danilchet/zuzex-task-ms
+    image: danilchet/task-ms
     container_name: task-ms-zuzex-container
     networks:
       - task-manager

@@ -1,7 +1,7 @@
 services:
   # infrastructure services
   config-server:
-    image: danilchet/zuzex-config-server-ms
+    image: danilchet/config-server
     container_name: config-server-zuzex-container
     environment:
       - "spring.cloud.config.server.vault.host=vault"
@@ -17,7 +17,7 @@ services:
       start_period: 30s
 
   eureka-server:
-    image: danilchet/zuzex-eureka-server-ms
+    image: danilchet/eureka-server
     container_name: eureka-server-zuzex-container
     networks:
       - task-manager
@@ -37,7 +37,7 @@ services:
       start_period: 30s
 
   gateway-server:
-    image: danilchet/zuzex-gateway-server-ms
+    image: danilchet/gateway-server
     container_name: gateway-server-zuzex-container
     networks:
       - task-manager
